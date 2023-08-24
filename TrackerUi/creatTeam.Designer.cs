@@ -32,19 +32,19 @@
             deleteSelectedPlayer = new Button();
             button1 = new Button();
             label8 = new Label();
-            teamMemberList = new ListBox();
+            teamMemberListBox = new ListBox();
             addMember = new Button();
             CreatNumber = new Button();
             groupBox1 = new GroupBox();
-            phoneNum = new TextBox();
-            email = new TextBox();
-            lastName = new TextBox();
-            firstName = new TextBox();
+            phoneNumValue = new TextBox();
+            emailValue = new TextBox();
+            lastNameValue = new TextBox();
+            firstNameValue = new TextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
-            comboBox1 = new ComboBox();
+            selectTeamMemberDropdown = new ComboBox();
             label2 = new Label();
             tb_teamName = new TextBox();
             label3 = new Label();
@@ -65,8 +65,9 @@
             deleteSelectedPlayer.Name = "deleteSelectedPlayer";
             deleteSelectedPlayer.Size = new Size(80, 63);
             deleteSelectedPlayer.TabIndex = 57;
-            deleteSelectedPlayer.Text = "DELETE SELECTED";
+            deleteSelectedPlayer.Text = "REMOVE SELECTED";
             deleteSelectedPlayer.UseVisualStyleBackColor = false;
+            deleteSelectedPlayer.Click += deleteSelectedPlayer_Click;
             // 
             // button1
             // 
@@ -96,18 +97,18 @@
             label8.TabIndex = 55;
             label8.Text = "Team player Memeber :";
             // 
-            // teamMemberList
+            // teamMemberListBox
             // 
-            teamMemberList.BorderStyle = BorderStyle.None;
-            teamMemberList.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            teamMemberList.ForeColor = Color.SteelBlue;
-            teamMemberList.FormattingEnabled = true;
-            teamMemberList.ItemHeight = 21;
-            teamMemberList.Location = new Point(371, 54);
-            teamMemberList.Name = "teamMemberList";
-            teamMemberList.ScrollAlwaysVisible = true;
-            teamMemberList.Size = new Size(380, 378);
-            teamMemberList.TabIndex = 54;
+            teamMemberListBox.BorderStyle = BorderStyle.None;
+            teamMemberListBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            teamMemberListBox.ForeColor = Color.SteelBlue;
+            teamMemberListBox.FormattingEnabled = true;
+            teamMemberListBox.ItemHeight = 21;
+            teamMemberListBox.Location = new Point(371, 54);
+            teamMemberListBox.Name = "teamMemberListBox";
+            teamMemberListBox.ScrollAlwaysVisible = true;
+            teamMemberListBox.Size = new Size(380, 378);
+            teamMemberListBox.TabIndex = 54;
             // 
             // addMember
             // 
@@ -124,6 +125,7 @@
             addMember.TabIndex = 53;
             addMember.Text = " ADD Member";
             addMember.UseVisualStyleBackColor = false;
+            addMember.Click += addMember_Click;
             // 
             // CreatNumber
             // 
@@ -140,13 +142,14 @@
             CreatNumber.TabIndex = 52;
             CreatNumber.Text = "ADD TEAM";
             CreatNumber.UseVisualStyleBackColor = false;
+            CreatNumber.Click += CreatNumber_Click;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(phoneNum);
-            groupBox1.Controls.Add(email);
-            groupBox1.Controls.Add(lastName);
-            groupBox1.Controls.Add(firstName);
+            groupBox1.Controls.Add(phoneNumValue);
+            groupBox1.Controls.Add(emailValue);
+            groupBox1.Controls.Add(lastNameValue);
+            groupBox1.Controls.Add(firstNameValue);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label5);
@@ -161,37 +164,41 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Add New member :";
             // 
-            // phoneNum
+            // phoneNumValue
             // 
-            phoneNum.BorderStyle = BorderStyle.FixedSingle;
-            phoneNum.Location = new Point(152, 129);
-            phoneNum.Name = "phoneNum";
-            phoneNum.Size = new Size(161, 26);
-            phoneNum.TabIndex = 40;
+            phoneNumValue.BorderStyle = BorderStyle.FixedSingle;
+            phoneNumValue.Location = new Point(152, 129);
+            phoneNumValue.Name = "phoneNumValue";
+            phoneNumValue.Size = new Size(161, 26);
+            phoneNumValue.TabIndex = 40;
+            phoneNumValue.KeyPress += phoneNumValue_KeyPress;
             // 
-            // email
+            // emailValue
             // 
-            email.BorderStyle = BorderStyle.FixedSingle;
-            email.Location = new Point(152, 93);
-            email.Name = "email";
-            email.Size = new Size(161, 26);
-            email.TabIndex = 39;
+            emailValue.BorderStyle = BorderStyle.FixedSingle;
+            emailValue.Location = new Point(152, 93);
+            emailValue.Name = "emailValue";
+            emailValue.Size = new Size(161, 26);
+            emailValue.TabIndex = 39;
+            emailValue.KeyPress += emailValue_KeyPress;
             // 
-            // lastName
+            // lastNameValue
             // 
-            lastName.BorderStyle = BorderStyle.FixedSingle;
-            lastName.Location = new Point(152, 61);
-            lastName.Name = "lastName";
-            lastName.Size = new Size(161, 26);
-            lastName.TabIndex = 38;
+            lastNameValue.BorderStyle = BorderStyle.FixedSingle;
+            lastNameValue.Location = new Point(152, 61);
+            lastNameValue.Name = "lastNameValue";
+            lastNameValue.Size = new Size(161, 26);
+            lastNameValue.TabIndex = 38;
+            lastNameValue.KeyPress += firstNameValue_KeyPress;
             // 
-            // firstName
+            // firstNameValue
             // 
-            firstName.BorderStyle = BorderStyle.FixedSingle;
-            firstName.Location = new Point(152, 29);
-            firstName.Name = "firstName";
-            firstName.Size = new Size(161, 26);
-            firstName.TabIndex = 34;
+            firstNameValue.BorderStyle = BorderStyle.FixedSingle;
+            firstNameValue.Location = new Point(152, 29);
+            firstNameValue.Name = "firstNameValue";
+            firstNameValue.Size = new Size(161, 26);
+            firstNameValue.TabIndex = 34;
+            firstNameValue.KeyPress += firstNameValue_KeyPress;
             // 
             // label7
             // 
@@ -241,13 +248,13 @@
             label4.TabIndex = 34;
             label4.Text = "-First Name :";
             // 
-            // comboBox1
+            // selectTeamMemberDropdown
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(13, 172);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(230, 23);
-            comboBox1.TabIndex = 50;
+            selectTeamMemberDropdown.FormattingEnabled = true;
+            selectTeamMemberDropdown.Location = new Point(13, 172);
+            selectTeamMemberDropdown.Name = "selectTeamMemberDropdown";
+            selectTeamMemberDropdown.Size = new Size(230, 23);
+            selectTeamMemberDropdown.TabIndex = 50;
             // 
             // label2
             // 
@@ -302,16 +309,17 @@
             Controls.Add(deleteSelectedPlayer);
             Controls.Add(button1);
             Controls.Add(label8);
-            Controls.Add(teamMemberList);
+            Controls.Add(teamMemberListBox);
             Controls.Add(addMember);
             Controls.Add(CreatNumber);
             Controls.Add(groupBox1);
-            Controls.Add(comboBox1);
+            Controls.Add(selectTeamMemberDropdown);
             Controls.Add(label2);
             Controls.Add(tb_teamName);
             Controls.Add(label3);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "creatTeam";
             Text = "creatTeam";
             groupBox1.ResumeLayout(false);
@@ -325,19 +333,19 @@
         private Button deleteSelectedPlayer;
         private Button button1;
         private Label label8;
-        private ListBox teamMemberList;
+        private ListBox teamMemberListBox;
         private Button addMember;
         private Button CreatNumber;
         private GroupBox groupBox1;
-        private TextBox phoneNum;
-        private TextBox email;
-        private TextBox lastName;
-        private TextBox firstName;
+        private TextBox phoneNumValue;
+        private TextBox emailValue;
+        private TextBox lastNameValue;
+        private TextBox firstNameValue;
         private Label label7;
         private Label label6;
         private Label label5;
         private Label label4;
-        private ComboBox comboBox1;
+        private ComboBox selectTeamMemberDropdown;
         private Label label2;
         private TextBox tb_teamName;
         private Label label3;

@@ -4,16 +4,78 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tourament_library.Models;
+using Tourament_library.DataAccess.Convert;
+using System.Reflection;
 
 namespace Tourament_library.DataAccess
 {
     public class textConnection : IDataConnection
     {
+        private const string PrizeFile = "prizeModel.csv";
+        
+
+
+
         // todo -wire up text files
         public PrizeModel createPrize(PrizeModel model)
         {
-            model.id = 1;
+            //load the text file
+            //convert the text to prizes=list<prize model>
+            List<PrizeModel> prizes=  PrizeFile.getFullpath().loadFile().convertToPrizeModel();
+
+            // find the max ID
+            int currentID;
+            try
+            {
+                currentID = prizes.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception )
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            model.id = currentID;
+            prizes.Add(model);
+
+            prizes.savePrizeToTextfile(PrizeFile);
             return model;
+
+
+            //convert convert prizes to list<string>
+            // save the list as text
+            // get the full path string
+
+        }
+        private const string peopleFile = "peopleFile.csv";
+        public person ceatePeson(person person1)
+        {
+
+            List<person> persons = peopleFile.getFullpath().loadFile().convertToPeopleModel();
+
+            // find the max ID
+            int currentID;
+            try
+            {
+                currentID = persons.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            person1.id = currentID;
+            persons.Add(person1);
+
+            persons.savePeoplesToTextfile(peopleFile);
+            return person1;
+        }
+
+        public List<person> getPersonAll()
+        {
+            return peopleFile.getFullpath().loadFile().convertToPeopleModel();
         }
     }
+    
 }

@@ -9,9 +9,28 @@ namespace Tourament_library.Models
     public class person
     {
         public string name;
-        public string first_name;
-        public string email_adress;
-        public string phonenumber;
+        public string lastName;
+        public string email;
+        public string phone;
+        public int id;
 
+        public person(string name, string lastName, string email_adress, string phonenumber)
+        {
+            this.name = name;
+            this.lastName = lastName;
+            this.email = email_adress;
+            this.phone = phonenumber;
+        }
+        public string fullname
+        {
+            get
+            {
+                return $"  {name} {lastName}";
+            }
+        }
+        public person()
+        {
+           
+        }
     }
 }

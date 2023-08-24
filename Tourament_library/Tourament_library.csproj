@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\sqlConnector.cs" />
     <Compile Include="DataAccess\textConnection.cs" />
+    <Compile Include="DataAccess\textFileProcessor.cs" />
     <Compile Include="enum.cs" />
     <Compile Include="globalConfig.cs" />
     <Compile Include="Models\MatchupEntrieModel.cs" />
