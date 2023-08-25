@@ -84,6 +84,7 @@
             button1.TabIndex = 56;
             button1.Text = "Creat Team";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // label8
             // 

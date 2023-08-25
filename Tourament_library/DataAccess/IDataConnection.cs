@@ -16,6 +16,7 @@ namespace Tourament_library.DataAccess
 
         List<person> getPersonAll();
         //ff
+        teamModel createTeam(teamModel team);
         
 
 

@@ -12,7 +12,9 @@ namespace Tourament_library.DataAccess
     public class textConnection : IDataConnection
     {
         private const string PrizeFile = "prizeModel.csv";
-        
+        private const string peopleFile = "peopleFile.csv";
+        private const string teamFile = "teamFile.csv";
+
 
 
 
@@ -47,7 +49,7 @@ namespace Tourament_library.DataAccess
             // get the full path string
 
         }
-        private const string peopleFile = "peopleFile.csv";
+        
         public person ceatePeson(person person1)
         {
 
@@ -75,6 +77,29 @@ namespace Tourament_library.DataAccess
         public List<person> getPersonAll()
         {
             return peopleFile.getFullpath().loadFile().convertToPeopleModel();
+        }
+
+        
+        
+        public teamModel createTeam(teamModel team)
+        {
+            List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModel(teamFile);
+            int currentID;
+            try
+            {
+                currentID = teams.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            team.id = currentID;
+            teams.Add(team);
+
+            teams.saveToteamFile(teamFile);
+            return team;
         }
     }
     

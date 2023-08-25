@@ -119,5 +119,14 @@ namespace TrackerUi
                 wireUpList();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            teamModel team = new teamModel();
+            team.teamName = tb_teamName.Text;
+            team.team_member = selectedTeamMember;
+            team=globalConfig.Connections.createTeam(team);
+
+        }
     }
 }

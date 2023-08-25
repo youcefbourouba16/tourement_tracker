@@ -73,5 +73,35 @@ namespace Tourament_library.DataAccess
             }
             return output;
         }
+
+        public teamModel createTeam(teamModel team)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                
+
+                var p = new DynamicParameters();
+                p.Add("@teamName", team.teamName);
+                
+
+                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("sp_teamInsert", p, commandType: CommandType.StoredProcedure);
+
+                team.id = p.Get<int>("@id");
+                foreach (var tm in team.team_member)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@teamID", team.id);
+
+                    // tm is the team member people id
+                    p.Add("@peopleID", tm.id);
+
+                    connection.Execute("sp_teamMemberInsert", p, commandType: CommandType.StoredProcedure);
+                }
+                return team;
+
+            }
+        }
     }
 }

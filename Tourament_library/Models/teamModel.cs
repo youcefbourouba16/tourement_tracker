@@ -12,6 +12,7 @@ namespace Tourament_library.Models
         /// has the the information of players
         /// </summary>
         public List<person> team_member { get; set; } = new List<person>() { };
-        public string TeamName { get; set; }
+        public string teamName { get; set; }
+        public int id { get;set; }
     }
 }
