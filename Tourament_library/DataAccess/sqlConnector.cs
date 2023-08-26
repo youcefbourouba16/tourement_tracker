@@ -55,7 +55,7 @@ namespace Tourament_library.DataAccess
                 p.Add("@phone", person1.phone);
 
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-
+                //// this command so we can imploment the input inside of stored procedure
                 connection.Execute("PeopleInsert", p, commandType: CommandType.StoredProcedure);
 
                 person1.id = p.Get<int>("@id");
@@ -70,6 +70,32 @@ namespace Tourament_library.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
             {
                 output = connection.Query<person>("sp_peopleGetAll").ToList();
+            }
+            return output;
+        }
+
+        public List<PrizeModel> getPrizeAll()
+        {
+            List<PrizeModel> output;
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                output = connection.Query<PrizeModel>("sp_prizesGetAll").ToList();
+            }
+            return output;
+        }
+        public List<teamModel> getTeamAll()
+        {
+            List<teamModel> output;
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                output = connection.Query<teamModel>("sp_teamGetAll").ToList();
+                foreach (teamModel team in output)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@teamID", team.id);
+                    team.team_member= connection.Query<person>("sp_teamMember_getByTeam",p
+                        , commandType: CommandType.StoredProcedure).ToList();
+                }
             }
             return output;
         }
@@ -103,5 +129,17 @@ namespace Tourament_library.DataAccess
 
             }
         }
+
+        public List<person> getTeamMebmberByTeam()
+        {
+            List<person> output;
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                output = connection.Query<person>("sp_teamMember_getByTeam").ToList();
+            }
+            return output;
+        }
+
+
     }
 }

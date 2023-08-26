@@ -18,6 +18,10 @@ namespace Tourament_library.DataAccess
         //ff
         teamModel createTeam(teamModel team);
         
+        List<PrizeModel> getPrizeAll();
+        List<teamModel> getTeamAll();
+
+        List<person> getTeamMebmberByTeam();
 
 
 

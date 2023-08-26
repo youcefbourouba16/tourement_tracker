@@ -33,14 +33,14 @@
             label6 = new Label();
             label5 = new Label();
             deleteSelectedPrize = new Button();
-            listBox1 = new ListBox();
+            PrizesAllListBox = new ListBox();
             deleteSelectedTeam = new Button();
-            matchupListBox = new ListBox();
+            teamsListbox = new ListBox();
             btn_addPrize = new Button();
             btn_addTeam = new Button();
             linkLabel1 = new LinkLabel();
             label4 = new Label();
-            round_list = new ComboBox();
+            SelectTeamDropDown = new ComboBox();
             entryFee_val = new TextBox();
             touramentName = new TextBox();
             label2 = new Label();
@@ -60,7 +60,7 @@
             btn_addTourament.Name = "btn_addTourament";
             btn_addTourament.Size = new Size(455, 61);
             btn_addTourament.TabIndex = 45;
-            btn_addTourament.Text = "ADD SCORE";
+            btn_addTourament.Text = "ADD Tourament";
             btn_addTourament.UseVisualStyleBackColor = false;
             // 
             // label6
@@ -83,9 +83,9 @@
             label5.Location = new Point(39, 283);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(164, 21);
+            label5.Size = new Size(175, 21);
             label5.TabIndex = 43;
-            label5.Text = "TEAM / PLAYERS";
+            label5.Text = "Teams / Players";
             // 
             // deleteSelectedPrize
             // 
@@ -101,19 +101,21 @@
             deleteSelectedPrize.TabIndex = 42;
             deleteSelectedPrize.Text = "DELETE SELECTED";
             deleteSelectedPrize.UseVisualStyleBackColor = false;
+            deleteSelectedPrize.Click += deleteSelectedPrize_Click;
             // 
-            // listBox1
+            // PrizesAllListBox
             // 
-            listBox1.BorderStyle = BorderStyle.None;
-            listBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            listBox1.ForeColor = Color.DarkKhaki;
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 21;
-            listBox1.Location = new Point(565, 85);
-            listBox1.Name = "listBox1";
-            listBox1.ScrollAlwaysVisible = true;
-            listBox1.Size = new Size(245, 189);
-            listBox1.TabIndex = 41;
+            PrizesAllListBox.BorderStyle = BorderStyle.None;
+            PrizesAllListBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            PrizesAllListBox.ForeColor = Color.DarkKhaki;
+            PrizesAllListBox.FormattingEnabled = true;
+            PrizesAllListBox.ItemHeight = 21;
+            PrizesAllListBox.Location = new Point(565, 85);
+            PrizesAllListBox.Name = "PrizesAllListBox";
+            PrizesAllListBox.ScrollAlwaysVisible = true;
+            PrizesAllListBox.Size = new Size(245, 189);
+            PrizesAllListBox.TabIndex = 41;
+            PrizesAllListBox.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             // 
             // deleteSelectedTeam
             // 
@@ -129,19 +131,20 @@
             deleteSelectedTeam.TabIndex = 40;
             deleteSelectedTeam.Text = "DELETE SELECTED";
             deleteSelectedTeam.UseVisualStyleBackColor = false;
+            deleteSelectedTeam.Click += deleteSelectedTeam_Click;
             // 
-            // matchupListBox
+            // teamsListbox
             // 
-            matchupListBox.BorderStyle = BorderStyle.None;
-            matchupListBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            matchupListBox.ForeColor = Color.SteelBlue;
-            matchupListBox.FormattingEnabled = true;
-            matchupListBox.ItemHeight = 21;
-            matchupListBox.Location = new Point(41, 318);
-            matchupListBox.Name = "matchupListBox";
-            matchupListBox.ScrollAlwaysVisible = true;
-            matchupListBox.Size = new Size(245, 189);
-            matchupListBox.TabIndex = 39;
+            teamsListbox.BorderStyle = BorderStyle.None;
+            teamsListbox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            teamsListbox.ForeColor = Color.SteelBlue;
+            teamsListbox.FormattingEnabled = true;
+            teamsListbox.ItemHeight = 21;
+            teamsListbox.Location = new Point(41, 318);
+            teamsListbox.Name = "teamsListbox";
+            teamsListbox.ScrollAlwaysVisible = true;
+            teamsListbox.Size = new Size(245, 189);
+            teamsListbox.TabIndex = 39;
             // 
             // btn_addPrize
             // 
@@ -156,7 +159,7 @@
             btn_addPrize.Name = "btn_addPrize";
             btn_addPrize.Size = new Size(183, 46);
             btn_addPrize.TabIndex = 38;
-            btn_addPrize.Text = "ADD PRIZE";
+            btn_addPrize.Text = "ADD prize";
             btn_addPrize.UseVisualStyleBackColor = false;
             // 
             // btn_addTeam
@@ -171,8 +174,9 @@
             btn_addTeam.Name = "btn_addTeam";
             btn_addTeam.Size = new Size(183, 46);
             btn_addTeam.TabIndex = 37;
-            btn_addTeam.Text = "ADD TEAM";
+            btn_addTeam.Text = "ADD team";
             btn_addTeam.UseVisualStyleBackColor = false;
+            btn_addTeam.Click += btn_addTeam_Click;
             // 
             // linkLabel1
             // 
@@ -196,15 +200,16 @@
             label4.TabIndex = 35;
             label4.Text = "SELECT TEAM :";
             // 
-            // round_list
+            // SelectTeamDropDown
             // 
-            round_list.FlatStyle = FlatStyle.Flat;
-            round_list.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            round_list.FormattingEnabled = true;
-            round_list.Location = new Point(170, 168);
-            round_list.Name = "round_list";
-            round_list.Size = new Size(220, 29);
-            round_list.TabIndex = 34;
+            SelectTeamDropDown.FlatStyle = FlatStyle.Flat;
+            SelectTeamDropDown.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            SelectTeamDropDown.FormattingEnabled = true;
+            SelectTeamDropDown.Location = new Point(170, 168);
+            SelectTeamDropDown.Name = "SelectTeamDropDown";
+            SelectTeamDropDown.Size = new Size(220, 29);
+            SelectTeamDropDown.TabIndex = 34;
+            SelectTeamDropDown.SelectedIndexChanged += SelectTeamDropDown_SelectedIndexChanged;
             // 
             // entryFee_val
             // 
@@ -269,14 +274,14 @@
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(deleteSelectedPrize);
-            Controls.Add(listBox1);
+            Controls.Add(PrizesAllListBox);
             Controls.Add(deleteSelectedTeam);
-            Controls.Add(matchupListBox);
+            Controls.Add(teamsListbox);
             Controls.Add(btn_addPrize);
             Controls.Add(btn_addTeam);
             Controls.Add(linkLabel1);
             Controls.Add(label4);
-            Controls.Add(round_list);
+            Controls.Add(SelectTeamDropDown);
             Controls.Add(entryFee_val);
             Controls.Add(touramentName);
             Controls.Add(label2);
@@ -296,18 +301,19 @@
         private Label label6;
         private Label label5;
         private Button deleteSelectedPrize;
-        private ListBox listBox1;
+        private ListBox PrizesAllListBox;
         private Button deleteSelectedTeam;
         private ListBox matchupListBox;
         private Button btn_addPrize;
         private Button btn_addTeam;
         private LinkLabel linkLabel1;
         private Label label4;
-        private ComboBox round_list;
+        private ComboBox SelectTeamDropDown;
         private TextBox entryFee_val;
         private TextBox touramentName;
         private Label label2;
         private Label label3;
         private Label label1;
+        private ListBox teamsListbox;
     }
 }

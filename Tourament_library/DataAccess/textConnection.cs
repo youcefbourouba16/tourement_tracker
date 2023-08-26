@@ -78,12 +78,16 @@ namespace Tourament_library.DataAccess
         {
             return peopleFile.getFullpath().loadFile().convertToPeopleModel();
         }
+        public List<teamModel> getTeamAll()
+        {
+            return teamFile.getFullpath().loadFile().convertToteamModel(peopleFile);
+        }
 
-        
-        
+
+
         public teamModel createTeam(teamModel team)
         {
-            List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModel(teamFile);
+            List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModel(peopleFile);
             int currentID;
             try
             {
@@ -101,6 +105,20 @@ namespace Tourament_library.DataAccess
             teams.saveToteamFile(teamFile);
             return team;
         }
+
+        public List<PrizeModel> getPrizeAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        public List<person> getTeamMebmberByTeam()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
     
 }

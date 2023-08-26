@@ -67,8 +67,8 @@ namespace Tourament_library.DataAccess.Convert
 
             }
             return output;
-
-
+            
+            
         }
         /// <summary>
         /// it convert the model into a list of string than it add element of the model
@@ -171,15 +171,21 @@ namespace Tourament_library.DataAccess.Convert
                 string[] personIds = parts[2].Split('|');
                 foreach (var id in personIds)
                 {
-                    p.team_member.Add(persons.Where(x => x.id==int.Parse(id)).First());
+                    if (id!="")
+                    {
+                        p.team_member.Add(persons.Where(x => x.id == int.Parse(id)).First());
                         
+                    }
+                    
+
                 }
-                
-               
+                output.Add(p);
+
+
 
             }
             return output;
-
+        
 
         }
 

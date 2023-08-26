@@ -122,10 +122,16 @@ namespace TrackerUi
 
         private void button1_Click(object sender, EventArgs e)
         {
-            teamModel team = new teamModel();
-            team.teamName = tb_teamName.Text;
-            team.team_member = selectedTeamMember;
-            team=globalConfig.Connections.createTeam(team);
+            if (tb_teamName.Text != "" && availableTeamMember != null)
+            {
+                teamModel team = new teamModel();
+                team.teamName = tb_teamName.Text;
+                team.team_member = selectedTeamMember;
+                team = globalConfig.Connections.createTeam(team);
+                teamMemberListBox.DataSource = null;
+
+            } else MessageBox.Show("please verfie your information !!.");
+            
 
         }
     }
