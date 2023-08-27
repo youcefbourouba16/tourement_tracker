@@ -62,6 +62,7 @@
             btn_addTourament.TabIndex = 45;
             btn_addTourament.Text = "ADD Tourament";
             btn_addTourament.UseVisualStyleBackColor = false;
+            btn_addTourament.Click += btn_addTourament_Click;
             // 
             // label6
             // 
@@ -161,6 +162,7 @@
             btn_addPrize.TabIndex = 38;
             btn_addPrize.Text = "ADD prize";
             btn_addPrize.UseVisualStyleBackColor = false;
+            btn_addPrize.Click += btn_addPrize_Click;
             // 
             // btn_addTeam
             // 
@@ -183,10 +185,11 @@
             linkLabel1.AutoSize = true;
             linkLabel1.Location = new Point(396, 172);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(74, 15);
+            linkLabel1.Size = new Size(105, 15);
             linkLabel1.TabIndex = 36;
             linkLabel1.TabStop = true;
-            linkLabel1.Text = "Creat Team ?";
+            linkLabel1.Text = "Create new Team ?";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // label4
             // 

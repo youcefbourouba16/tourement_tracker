@@ -12,7 +12,7 @@ namespace TrackerUi
             // see https://aka.ms/applicationconfiguration.
             Tourament_library.globalConfig.InitializingConnection(Tourament_library.DatabaseType.sql);
             ApplicationConfiguration.Initialize();
-            Application.Run(new creatTeam());
+            Application.Run(new CreatTour());
         }
     }
 }

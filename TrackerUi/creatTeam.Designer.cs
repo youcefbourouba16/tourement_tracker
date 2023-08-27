@@ -82,7 +82,7 @@
             button1.Name = "button1";
             button1.Size = new Size(331, 60);
             button1.TabIndex = 56;
-            button1.Text = "Creat Team";
+            button1.Text = "Create Team";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 

@@ -14,9 +14,11 @@ namespace TrackerUi
 {
     public partial class creatPrize : Form
     {
-        public creatPrize()
+        IPrizeRequester callingForm;
+        public creatPrize(IPrizeRequester caller)
         {
             InitializeComponent();
+            callingForm = caller;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,11 +32,12 @@ namespace TrackerUi
                     PrizeAmountValue.Text);
 
                 globalConfig.Connections.createPrize(prizeModel1);
-                
-                placeNameValue.Text = "";
-                placeNumberValue.Text = "";
-                prizePercentageValue.Text = "0";
-                PrizeAmountValue.Text = "0";
+                callingForm.prizeComplete(prizeModel1);
+                this.Close();
+                //placeNameValue.Text = "";
+                //placeNumberValue.Text = "";
+                //prizePercentageValue.Text = "0";
+                //PrizeAmountValue.Text = "0";
 
 
 
@@ -67,12 +70,12 @@ namespace TrackerUi
                 validLogic = false;
             }
 
-            if (prizePercentage>100)
+            if (prizePercentage > 100)
             {
                 validLogic = false;
             }
             return validLogic;
-            
+
 
         }
     }

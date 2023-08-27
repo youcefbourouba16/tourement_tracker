@@ -14,13 +14,15 @@ namespace TrackerUi
 {
     public partial class creatTeam : Form
     {
+        IteamRequester callingForm;
         List<person> availableTeamMember = globalConfig.Connections.getPersonAll();
         List<person> selectedTeamMember = new List<person>();
 
-        public creatTeam()
+        public creatTeam(IteamRequester caller)
         {
             InitializeComponent();
             wireUpList();
+            callingForm = caller;
         }
 
         private void wireUpList()
@@ -49,6 +51,7 @@ namespace TrackerUi
                 globalConfig.Connections.ceatePeson(person1);
                 selectedTeamMember.Add(person1);
                 wireUpList();
+
 
                 firstNameValue.Text = "";
                 lastNameValue.Text = "";
@@ -128,11 +131,20 @@ namespace TrackerUi
                 team.teamName = tb_teamName.Text;
                 team.team_member = selectedTeamMember;
                 team = globalConfig.Connections.createTeam(team);
-                teamMemberListBox.DataSource = null;
+                callingForm.teamComplete(team);
+                this.Close();
+                //selectedTeamMember = new List<person>();
+                //teamMemberListBox.DataSource = null;
+                //tb_teamName.Text = "";
+                //wireUpList();
 
-            } else MessageBox.Show("please verfie your information !!.");
-            
+
+            }
+            else MessageBox.Show("please verfie your information !!.");
+
 
         }
+
+
     }
 }

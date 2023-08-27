@@ -12,7 +12,7 @@ using Tourament_library.Models;
 
 namespace TrackerUi
 {
-    public partial class CreatTour : Form
+    public partial class CreatTour : Form, IPrizeRequester, IteamRequester
     {
         List<PrizeModel> PrizesAll = new List<PrizeModel>();
         List<teamModel> teamAll = globalConfig.Connections.getTeamAll();
@@ -96,6 +96,41 @@ namespace TrackerUi
                 wireUpSelectedTeamsList();
                 wireUpAvailableTeamsList();
             }
+        }
+
+        private void btn_addPrize_Click(object sender, EventArgs e)
+        {
+            //call the creatprize form
+            creatPrize frm = new creatPrize(this); /// this means this exactly form that  we're in
+            frm.Show();
+            //gt back prizeModel form the creatPrize form
+            // take that prize model and put it in selected prize Listbox
+
+        }
+
+        public void prizeComplete(PrizeModel model)
+        {
+            // *  get back prizeModel form the creatPrize form
+            // take that prize model and put it in selected prize Listbox
+            PrizesAll.Add(model);
+            wireUpPrizeList();
+        }
+
+        public void teamComplete(teamModel model)
+        {
+            teamsSelected.Add(model);
+            wireUpSelectedTeamsList();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            creatTeam frm = new creatTeam(this); /// this means this exactly form that  we're in
+            frm.Show();
+        }
+
+        private void btn_addTourament_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

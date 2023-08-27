@@ -121,7 +121,7 @@
             // 
             placeNameValue.BorderStyle = BorderStyle.FixedSingle;
             placeNameValue.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            placeNameValue.Location = new Point(216, 142);
+            placeNameValue.Location = new Point(215, 98);
             placeNameValue.Margin = new Padding(4);
             placeNameValue.Name = "placeNameValue";
             placeNameValue.Size = new Size(206, 29);
@@ -131,7 +131,7 @@
             // 
             placeNumberValue.BorderStyle = BorderStyle.FixedSingle;
             placeNumberValue.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            placeNumberValue.Location = new Point(216, 98);
+            placeNumberValue.Location = new Point(215, 147);
             placeNumberValue.Margin = new Padding(4);
             placeNumberValue.Name = "placeNumberValue";
             placeNumberValue.Size = new Size(206, 29);
@@ -154,7 +154,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Courier New", 12F, FontStyle.Italic, GraphicsUnit.Point);
             label5.ForeColor = Color.Black;
-            label5.Location = new Point(12, 103);
+            label5.Location = new Point(12, 152);
             label5.Margin = new Padding(5, 0, 5, 0);
             label5.Name = "label5";
             label5.Size = new Size(159, 19);
@@ -166,7 +166,7 @@
             label4.AutoSize = true;
             label4.Font = new Font("Courier New", 12F, FontStyle.Italic, GraphicsUnit.Point);
             label4.ForeColor = Color.Black;
-            label4.Location = new Point(18, 142);
+            label4.Location = new Point(22, 103);
             label4.Margin = new Padding(5, 0, 5, 0);
             label4.Name = "label4";
             label4.Size = new Size(149, 19);
