@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,11 +14,12 @@ namespace Tourament_library.DataAccess
         private const string PrizeFile = "prizeModel.csv";
         private const string peopleFile = "peopleFile.csv";
         private const string teamFile = "teamFile.csv";
+        private const string touramentFile = "TouramentFile.csv";
 
 
 
 
-        // todo -wire up text files
+
         public PrizeModel createPrize(PrizeModel model)
         {
             //load the text file
@@ -106,19 +107,26 @@ namespace Tourament_library.DataAccess
             return team;
         }
 
-        public List<PrizeModel> getPrizeAll()
+        public tourement_Model createTourament(tourement_Model tr)
         {
-            throw new NotImplementedException();
+            List<tourement_Model> touraments = touramentFile.getFullpath().loadFile().convertToTouramentModel(touramentFile);
+            int currentID;
+            try
+            {
+                currentID = touraments.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            tr.id = currentID;
+            touraments.Add(tr);
+
+            touraments.saveTouramentFile(touramentFile);
+            return tr;
         }
-
-        
-
-        public List<person> getTeamMebmberByTeam()
-        {
-            throw new NotImplementedException();
-        }
-
-        
     }
     
 }

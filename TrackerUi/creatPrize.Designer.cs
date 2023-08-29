@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(int i)
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(creatPrize));
             button1 = new Button();
@@ -136,6 +136,7 @@
             placeNumberValue.Name = "placeNumberValue";
             placeNumberValue.Size = new Size(206, 29);
             placeNumberValue.TabIndex = 84;
+            placeNumberValue.Text = Convert.ToString(i);
             // 
             // label6
             // 
@@ -193,6 +194,7 @@
             MaximizeBox = false;
             Name = "creatPrize";
             Text = "creatPrize";
+            Load += creatPrize_Load;
             ResumeLayout(false);
             PerformLayout();
         }

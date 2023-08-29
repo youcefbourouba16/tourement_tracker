@@ -97,12 +97,15 @@ namespace TrackerUi
                 wireUpAvailableTeamsList();
             }
         }
+        public int i=1;
 
         private void btn_addPrize_Click(object sender, EventArgs e)
         {
             //call the creatprize form
-            creatPrize frm = new creatPrize(this); /// this means this exactly form that  we're in
+             
+            creatPrize frm = new creatPrize(this,i); /// this means this exactly form that  we're in
             frm.Show();
+            i++;// this to increament the pace number automaticly
             //gt back prizeModel form the creatPrize form
             // take that prize model and put it in selected prize Listbox
 
@@ -130,7 +133,39 @@ namespace TrackerUi
 
         private void btn_addTourament_Click(object sender, EventArgs e)
         {
+            decimal fee = 0;
+            bool feeValidation = decimal.TryParse(entryFee_val.Text, out fee);
+            if (!feeValidation)
+            {
+                MessageBox.Show("please enter an decimale value in Entry fee box", "invalide fee",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+            if (touramentName.Text=="")
+            {
+                MessageBox.Show("Tourament Name is requered ", "invalide Tourament Name",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+            tourement_Model tr = new tourement_Model(
+                                touramentName.Text,
+                                double.Parse(entryFee_val.Text),
+                                teamsSelected,
+                                PrizesAll
+                );
 
+            tr = globalConfig.Connections.createTourament(tr);
+            /// todo -- close this form or make it get me to next form
+
+
+
+        }
+
+        private void entryFee_val_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
         }
     }
 }

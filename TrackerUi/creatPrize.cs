@@ -15,10 +15,12 @@ namespace TrackerUi
     public partial class creatPrize : Form
     {
         IPrizeRequester callingForm;
-        public creatPrize(IPrizeRequester caller)
+        public creatPrize(IPrizeRequester caller, int i)
         {
-            InitializeComponent();
+            InitializeComponent(i);
             callingForm = caller;
+            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -77,6 +79,18 @@ namespace TrackerUi
             return validLogic;
 
 
+        }
+
+        private void creatPrize_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void increamentPlaceNUmber(int i)
+        {
+            i = 1;
+
+            placeNumberValue.Text = Convert.ToString(i);
+            i++;
         }
     }
 }

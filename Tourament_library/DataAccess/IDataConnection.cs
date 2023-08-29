@@ -13,15 +13,13 @@ namespace Tourament_library.DataAccess
         PrizeModel createPrize(PrizeModel model);
 
         person ceatePeson(person person1);
+        teamModel createTeam(teamModel team);
+        tourement_Model createTourament(tourement_Model tr);
 
         List<person> getPersonAll();
-        //ff
-        teamModel createTeam(teamModel team);
-        
-        List<PrizeModel> getPrizeAll();
         List<teamModel> getTeamAll();
 
-        List<person> getTeamMebmberByTeam();
+        
 
 
 

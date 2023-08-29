@@ -8,13 +8,26 @@ namespace Tourament_library.Models
 {
     public class tourement_Model
     {
-        private string TourramentName;
-        private double EntryFee;
-        private List<teamModel> EnteredTeams = new List<teamModel>();
-        private List<PrizeModel> Prizes = new List<PrizeModel>();
+        public string TourramentName;
+        public double EntryFee;
+        public List<teamModel> EnteredTeams = new List<teamModel>();
+        public List<PrizeModel> Prizes = new List<PrizeModel>();
+        public int id;
+
+        public tourement_Model(string tourramentName, 
+                                double entryFee,
+                                List<teamModel> enteredTeams,
+                                List<PrizeModel> prizes
+                                )
+        {
+            TourramentName = tourramentName;
+            EntryFee = entryFee;
+            EnteredTeams = enteredTeams;
+            Prizes = prizes;
+            
+        }
+
         public List<List<MatchupModel>> round { get; set; } = new List<List<MatchupModel>>();
-
-
-
+        public tourement_Model() { }
     }
 }

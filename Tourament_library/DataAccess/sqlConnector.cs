@@ -92,10 +92,44 @@ namespace Tourament_library.DataAccess
 
             }
         }
-        public tourement_Model creatTour(tourement_Model model)
+        public tourement_Model createTourament(tourement_Model tr)
         {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@touramentName", tr.TourramentName);
+                p.Add("@@entrieFee", tr.EntryFee);
 
+
+                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("sp_TouramentInsert", p, commandType: CommandType.StoredProcedure);
+
+                tr.id = p.Get<int>("@id");
+                foreach (var tm in tr.EnteredTeams)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@touramentID", tr.id);
+                    p.Add("@teamID", tm.id);
+
+                    connection.Execute("sp_touramentEntriesInsert", p, commandType: CommandType.StoredProcedure);
+                }
+                foreach (var tm in tr.Prizes)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@touramentID", tr.id);
+                    p.Add("@PrizeID", tm.id);
+
+                    connection.Execute("sp_TouramentPrizesInsert", p, commandType: CommandType.StoredProcedure);
+                }
+
+
+
+                return tr;
+
+            }
         }
+
 
         public List<person> getPersonAll( )
         {
@@ -107,15 +141,7 @@ namespace Tourament_library.DataAccess
             return output;
         }
 
-        public List<PrizeModel> getPrizeAll()
-        {
-            List<PrizeModel> output;
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
-            {
-                output = connection.Query<PrizeModel>("sp_prizesGetAll").ToList();
-            }
-            return output;
-        }
+        
         public List<teamModel> getTeamAll()
         {
             List<teamModel> output;
@@ -134,17 +160,5 @@ namespace Tourament_library.DataAccess
         }
 
         
-
-        public List<person> getTeamMebmberByTeam()
-        {
-            List<person> output;
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
-            {
-                output = connection.Query<person>("sp_teamMember_getByTeam").ToList();
-            }
-            return output;
-        }
-
-
     }
 }

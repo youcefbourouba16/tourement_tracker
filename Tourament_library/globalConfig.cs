@@ -39,13 +39,11 @@ namespace Tourament_library
             //}
             if (connectonType==DatabaseType.sql)
             {
-                // TODO - set up sql connection propely
                 sqlConnector sql = new sqlConnector();
                 Connections = sql;
 
             }else if (connectonType == DatabaseType.TextFile)
             {
-                // TODO - set up text file  connection propely
                 textConnection text = new textConnection();
                 Connections = text;
             }

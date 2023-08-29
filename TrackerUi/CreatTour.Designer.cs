@@ -100,7 +100,7 @@
             deleteSelectedPrize.Name = "deleteSelectedPrize";
             deleteSelectedPrize.Size = new Size(80, 63);
             deleteSelectedPrize.TabIndex = 42;
-            deleteSelectedPrize.Text = "DELETE SELECTED";
+            deleteSelectedPrize.Text = "Remove SELECTED";
             deleteSelectedPrize.UseVisualStyleBackColor = false;
             deleteSelectedPrize.Click += deleteSelectedPrize_Click;
             // 
@@ -130,7 +130,7 @@
             deleteSelectedTeam.Name = "deleteSelectedTeam";
             deleteSelectedTeam.Size = new Size(80, 63);
             deleteSelectedTeam.TabIndex = 40;
-            deleteSelectedTeam.Text = "DELETE SELECTED";
+            deleteSelectedTeam.Text = "Remove SELECTED";
             deleteSelectedTeam.UseVisualStyleBackColor = false;
             deleteSelectedTeam.Click += deleteSelectedTeam_Click;
             // 
@@ -222,6 +222,7 @@
             entryFee_val.Size = new Size(98, 23);
             entryFee_val.TabIndex = 33;
             entryFee_val.Text = "0";
+            entryFee_val.KeyPress += entryFee_val_KeyPress;
             // 
             // touramentName
             // 

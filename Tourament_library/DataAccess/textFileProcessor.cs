@@ -18,10 +18,25 @@ namespace Tourament_library.DataAccess.Convert
     // save the list as text
     public static class textFileProcessor
     {
+        
+
         public static string getFullpath(this string fileName)//prizeModel.csv //this. help to make it 
                                                               //as extension so when we call it (getFullpath.String)
         {
-            return $"{ConfigurationManager.AppSettings["filePath"]}\\{fileName}";
+            // Get the base directory from the configuration
+            string baseDirectory = ConfigurationManager.AppSettings["filePath"];
+
+            // Combine the base directory, directoryName, and fileName
+            string fullPath = Path.Combine(baseDirectory, "Tourament Treacker by youcef", fileName);
+
+            // Create the directory if it doesn't exist
+            string directory = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            return fullPath;
         }
 
         ///// take the full file path and load that string
@@ -133,6 +148,33 @@ namespace Tourament_library.DataAccess.Convert
 
 
         }
+        public static void saveTouramentFile(this List<tourement_Model> touraments, string fileName)
+        {
+
+            List<string> lines = new List<string>();
+
+
+
+            foreach (tourement_Model tr in touraments)
+            {
+
+
+                lines.Add($"{tr.id} , {tr.TourramentName} ," +
+                    $"{tr.EntryFee}," +
+                    $" {convertTeamEntriesToString(tr.EnteredTeams)}," +
+                    $"{convertTourPrizesTpString(tr.Prizes)}");
+
+
+
+            }
+            string s = fileName.getFullpath();
+
+            File.WriteAllLines(fileName.getFullpath(), lines);
+
+
+
+        }
+
         public static string convertTeamMemberToString (List<person> persons){
             string output = "";
             if (persons.Count==0)
@@ -147,6 +189,36 @@ namespace Tourament_library.DataAccess.Convert
             return output;
 
         }
+        public static string convertTeamEntriesToString(List<teamModel> teams)
+        {
+            string output = "";
+            if (teams.Count == 0)
+            {
+                return output;
+
+            }
+            foreach (var team in teams)
+            {
+                output += $"{team.id}^";
+            }
+            return output;
+
+        }
+        public static string convertTourPrizesTpString(List<PrizeModel> prizes)
+        {
+            string output = "";
+            if (prizes.Count == 0)
+            {
+                return output;
+
+            }
+            foreach (var prize in prizes)
+            {
+                output += $"{prize.id}*";
+            }
+            return output;
+        }
+
 
 
         public static List<teamModel> convertToteamModel(this List<string> lines,string peopleFIleName)
@@ -188,6 +260,67 @@ namespace Tourament_library.DataAccess.Convert
         
 
         }
+        public static List<tourement_Model> convertToTouramentModel(this List<string> lines, string fileName)
+        {
+
+            List<tourement_Model> trs = new List<tourement_Model>();
+            List<teamModel> teams = "teamFile.csv".getFullpath().loadFile().convertToteamModel("peopleFile.csv");
+            List<PrizeModel> prizes = "prizeModel.csv".getFullpath().loadFile().convertToPrizeModel();
+
+            /// id,touramentName,fee,(team1^team2^team3),(prize*prize1*prize2), (round id^id^id|id^id^id..)..
+            foreach (string line in lines)
+            {
+                string[] trParts = line.Split(',');
+                tourement_Model p = new tourement_Model();
+                p.id = int.Parse(trParts[0]);
+                p.TourramentName = trParts[1];
+                p.EntryFee = double.Parse(trParts[2]);
+                string[] tmParts = trParts[3].Split('^');
+                foreach (var id in tmParts)
+                {
+                    if (id!="")
+                    {
+                        p.EnteredTeams.Add(teams.Where(x => x.id == int.Parse(id)).First());
+                    }
+
+                }
+                string[] tpPart = trParts[4].Split('*');
+                foreach (var id in tpPart) 
+                {
+                    if (id != "")
+                    {
+                        p.Prizes.Add(prizes.Where(x => x.id == int.Parse(id)).First());
+                    }
+                }
+                /// --todo i need to load round from text file after (round id^id^id|id^id^id..)
+                //if (trParts[5]!="")
+                //{
+                //    List<MatchupModel>  matchUp= new List<MatchupModel>();
+                //    List<List<MatchupModel>> listMatchup = new List<List<MatchupModel>>();
+                //    string[] roundParts = trParts[5].Split('|');
+                //    foreach (string tmInRound in roundParts)
+                //    {
+                //        string[] tmRoundParts = tmInRound.Split('^');
+                //        foreach (var id in tmRoundParts)
+                //        {
+                //            if (id!="")
+                //            {
+                //               matchUp.matchRound.Add(prizes.Where(x => x.id == int.Parse(id)).First());
+                //            }
+                //        }
+                //    }
+                //}
+
+                trs.Add(p);
+
+
+            }
+            return trs;
+
+        }
+        
+
+
 
 
 
