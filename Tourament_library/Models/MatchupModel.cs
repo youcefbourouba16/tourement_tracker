@@ -11,7 +11,7 @@ namespace Tourament_library.Models
         {
             
         }
-
+        public int id { get; set; }
         public List<MatchupEntrieModel> Entries { get; set; } = new List<MatchupEntrieModel>();
         public teamModel Winner { get; set; }
         public int matchRound { get; set; }

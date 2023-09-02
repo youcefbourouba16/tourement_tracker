@@ -8,10 +8,11 @@ namespace Tourament_library.Models
 {
     public class MatchupEntrieModel
     {
+        public int id { get;set; }  
         /// <summary>
         /// the 2 team compeing
         /// </summary>
-        public teamModel teamCompreteting { get; set; }
+        public teamModel teamCompreting { get; set; }
         public double score { get; set; }
         /// <summary>
         /// the previos match information 
@@ -26,9 +27,11 @@ namespace Tourament_library.Models
         /// <param name="matchupParent"></param>
         public MatchupEntrieModel(teamModel teamCompreteting, double score, MatchupModel matchupParent)
         {
-            this.teamCompreteting = teamCompreteting;
+            this.teamCompreting = teamCompreteting;
             this.score = score;
             this.matchupParent = matchupParent;
         }
+        public MatchupEntrieModel() { } 
     }
 }
+

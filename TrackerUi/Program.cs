@@ -10,7 +10,7 @@ namespace TrackerUi
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            Tourament_library.globalConfig.InitializingConnection(Tourament_library.DatabaseType.TextFile);
+            Tourament_library.globalConfig.InitializingConnection(Tourament_library.DatabaseType.sql);
             ApplicationConfiguration.Initialize();
             Application.Run(new CreatTour());
         }

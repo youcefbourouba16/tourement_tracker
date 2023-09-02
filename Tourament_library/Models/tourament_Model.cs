@@ -8,11 +8,12 @@ namespace Tourament_library.Models
 {
     public class tourement_Model
     {
+        public int id;
         public string TourramentName;
         public double EntryFee;
         public List<teamModel> EnteredTeams = new List<teamModel>();
         public List<PrizeModel> Prizes = new List<PrizeModel>();
-        public int id;
+        public List<List<MatchupModel>> round { get; set; } = new List<List<MatchupModel>>();
 
         public tourement_Model(string tourramentName, 
                                 double entryFee,
@@ -27,7 +28,7 @@ namespace Tourament_library.Models
             
         }
 
-        public List<List<MatchupModel>> round { get; set; } = new List<List<MatchupModel>>();
+        
         public tourement_Model() { }
     }
 }

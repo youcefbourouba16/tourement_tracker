@@ -92,20 +92,19 @@ namespace Tourament_library.DataAccess
 
             }
         }
-        public tourement_Model createTourament(tourement_Model tr)
+        public void createTourament(tourement_Model tr)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@touramentName", tr.TourramentName);
                 p.Add("@@entrieFee", tr.EntryFee);
-
-
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("sp_TouramentInsert", p, commandType: CommandType.StoredProcedure);
 
                 tr.id = p.Get<int>("@id");
+                // entries inserts
                 foreach (var tm in tr.EnteredTeams)
                 {
                     p = new DynamicParameters();
@@ -114,6 +113,7 @@ namespace Tourament_library.DataAccess
 
                     connection.Execute("sp_touramentEntriesInsert", p, commandType: CommandType.StoredProcedure);
                 }
+                // insert prizes
                 foreach (var tm in tr.Prizes)
                 {
                     p = new DynamicParameters();
@@ -122,10 +122,44 @@ namespace Tourament_library.DataAccess
 
                     connection.Execute("sp_TouramentPrizesInsert", p, commandType: CommandType.StoredProcedure);
                 }
+                // round insert
+                foreach (List<MatchupModel> round in tr.round)
+                {
+                    // save a list of list  List<list<MatchModel>>
+                    // list<matchupEntrie> entries
+                    // loop throw the rounds
+                    //than loop inside loop to get matchup
+                    //save the matchup\
+                    // lopp throght the enties ad save them
+                    foreach (MatchupModel match in round)
+                    {
+                        
+                        p = new DynamicParameters();
+                        p.Add("@MatchupRound", match.matchRound);
+                        p.Add("@touramentID", tr.id);
+                        // -todo Matchup  winner didnt setup
+                        p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                        connection.Execute("sp_MatchupsInsert", p, commandType: CommandType.StoredProcedure);
+                        match.id = p.Get<int>("@id");
+
+                        foreach (MatchupEntrieModel entry in match.Entries  )
+                        {
+                            p = new DynamicParameters();
+                            p.Add("@MatchupID", match.id);
+                            p.Add("@ParentMatchupID", entry.matchupParent);
+                            p.Add("@TeamCompetingID", entry.teamCompreting.id);
+                            // -todo TeamEntries score didnt setup
+                            p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                            connection.Execute("sp_matchUpsEntriesInsert", p, commandType: CommandType.StoredProcedure);
+                            entry.id = p.Get<int>("@id");
+                        }
+                    }
 
 
+                }
 
-                return tr;
+
+                
 
             }
         }

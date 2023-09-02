@@ -85,12 +85,6 @@ namespace TrackerUi
         {
 
         }
-        private void increamentPlaceNUmber(int i)
-        {
-            i = 1;
-
-            placeNumberValue.Text = Convert.ToString(i);
-            i++;
-        }
+        
     }
 }

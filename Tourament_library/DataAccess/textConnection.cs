@@ -81,14 +81,14 @@ namespace Tourament_library.DataAccess
         }
         public List<teamModel> getTeamAll()
         {
-            return teamFile.getFullpath().loadFile().convertToteamModel(peopleFile);
+            return teamFile.getFullpath().loadFile().convertToteamModelList(peopleFile);
         }
 
 
 
         public teamModel createTeam(teamModel team)
         {
-            List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModel(peopleFile);
+            List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModelList(peopleFile);
             int currentID;
             try
             {
@@ -107,9 +107,12 @@ namespace Tourament_library.DataAccess
             return team;
         }
 
-        public tourement_Model createTourament(tourement_Model tr)
+        public void createTourament(tourement_Model tr)
         {
-            List<tourement_Model> touraments = touramentFile.getFullpath().loadFile().convertToTouramentModel(touramentFile);
+            List<tourement_Model> touraments = touramentFile.getFullpath().loadFile().
+                convertToTouramentModelList(teamFile,
+                                        peopleFile,
+                                        PrizeFile);
             int currentID;
             try
             {
@@ -125,7 +128,7 @@ namespace Tourament_library.DataAccess
             touraments.Add(tr);
 
             touraments.saveTouramentFile(touramentFile);
-            return tr;
+            
         }
     }
     

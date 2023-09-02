@@ -148,7 +148,7 @@ namespace Tourament_library.DataAccess.Convert
 
 
         }
-        public static void saveTouramentFile(this List<tourement_Model> touraments, string fileName)
+        public static void saveTouramentFile(this List<tourement_Model> touraments, string touramentFile)
         {
 
             List<string> lines = new List<string>();
@@ -161,15 +161,16 @@ namespace Tourament_library.DataAccess.Convert
 
                 lines.Add($"{tr.id} , {tr.TourramentName} ," +
                     $"{tr.EntryFee}," +
-                    $" {convertTeamEntriesToString(tr.EnteredTeams)}," +
-                    $"{convertTourPrizesTpString(tr.Prizes)}");
+                    $" {convertTeamEntriesListToString(tr.EnteredTeams)}," +
+                    $"{convertTourPrizesListToString(tr.Prizes)}" +
+                    $"{convertTourRoumdListToString(tr.round)}");
 
 
 
             }
-            string s = fileName.getFullpath();
+            string s = touramentFile.getFullpath();
 
-            File.WriteAllLines(fileName.getFullpath(), lines);
+            File.WriteAllLines(touramentFile.getFullpath(), lines);
 
 
 
@@ -189,7 +190,7 @@ namespace Tourament_library.DataAccess.Convert
             return output;
 
         }
-        public static string convertTeamEntriesToString(List<teamModel> teams)
+        public static string convertTeamEntriesListToString(List<teamModel> teams)
         {
             string output = "";
             if (teams.Count == 0)
@@ -204,7 +205,7 @@ namespace Tourament_library.DataAccess.Convert
             return output;
 
         }
-        public static string convertTourPrizesTpString(List<PrizeModel> prizes)
+        public static string convertTourPrizesListToString(List<PrizeModel> prizes)
         {
             string output = "";
             if (prizes.Count == 0)
@@ -218,10 +219,30 @@ namespace Tourament_library.DataAccess.Convert
             }
             return output;
         }
+        public static string convertTourRoumdListToString(List<List<MatchupModel>> rounds)
+        {
+            //(round id ^ id ^ id | id ^ id ^ id..)
+            string output = "";
+            if (rounds.Count == 0)
+            {
+                return output;
+
+            }
+            foreach (List<MatchupModel> round in rounds)
+            {
+                foreach (MatchupModel model in round)
+                {
+                    output += $"{model.id}^";
+                }
+                output += "|";
+            }
+            return output;
+            /// todo- this might be faulse(convertTourRoumdListToString) fonction
+        }
 
 
 
-        public static List<teamModel> convertToteamModel(this List<string> lines,string peopleFIleName)
+        public static List<teamModel> convertToteamModelList(this List<string> lines,string peopleFIleName)
         {
             /// id,teamName,personID|personID|personID....
             /// 0,0,fs barcelona,0|1|2|4
@@ -260,12 +281,18 @@ namespace Tourament_library.DataAccess.Convert
         
 
         }
-        public static List<tourement_Model> convertToTouramentModel(this List<string> lines, string fileName)
+        public static List<tourement_Model> convertToTouramentModelList(
+            this List<string> lines, 
+            string teamfile,
+            string peopleFile,
+            string prizeFile
+            )
         {
 
             List<tourement_Model> trs = new List<tourement_Model>();
-            List<teamModel> teams = "teamFile.csv".getFullpath().loadFile().convertToteamModel("peopleFile.csv");
-            List<PrizeModel> prizes = "prizeModel.csv".getFullpath().loadFile().convertToPrizeModel();
+            List<teamModel> teams = teamfile.getFullpath().loadFile().convertToteamModelList(peopleFile);
+            List<PrizeModel> prizes = prizeFile.getFullpath().loadFile().convertToPrizeModel();
+            
 
             /// id,touramentName,fee,(team1^team2^team3),(prize*prize1*prize2), (round id^id^id|id^id^id..)..
             foreach (string line in lines)
@@ -292,24 +319,9 @@ namespace Tourament_library.DataAccess.Convert
                         p.Prizes.Add(prizes.Where(x => x.id == int.Parse(id)).First());
                     }
                 }
-                /// --todo i need to load round from text file after (round id^id^id|id^id^id..)
-                //if (trParts[5]!="")
-                //{
-                //    List<MatchupModel>  matchUp= new List<MatchupModel>();
-                //    List<List<MatchupModel>> listMatchup = new List<List<MatchupModel>>();
-                //    string[] roundParts = trParts[5].Split('|');
-                //    foreach (string tmInRound in roundParts)
-                //    {
-                //        string[] tmRoundParts = tmInRound.Split('^');
-                //        foreach (var id in tmRoundParts)
-                //        {
-                //            if (id!="")
-                //            {
-                //               matchUp.matchRound.Add(prizes.Where(x => x.id == int.Parse(id)).First());
-                //            }
-                //        }
-                //    }
-                //}
+                // --todo i need to load round from text file after (round id^id^id|id^id^id..)
+
+                
 
                 trs.Add(p);
 
@@ -318,6 +330,9 @@ namespace Tourament_library.DataAccess.Convert
             return trs;
 
         }
+
+
+        
         
 
 
