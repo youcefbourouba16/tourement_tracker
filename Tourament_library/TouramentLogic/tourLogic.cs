@@ -19,7 +19,7 @@ namespace Tourament_library.TouramentLogic
             List<teamModel> randomazeTeam = RandomizTeamModel(model.EnteredTeams);
             int rounds = NumberOfRound(randomazeTeam);
             int byess = NumberOfbyess(randomazeTeam.Count);
-            model.EnteredTeams=randomazeTeam;
+            
             model.round.Add(createFirstRound(byess,randomazeTeam));
             createOtherRounds(model, rounds);
 
@@ -38,7 +38,7 @@ namespace Tourament_library.TouramentLogic
             {
                 foreach (MatchupModel match in PreviousRound)
                 {
-                    currMatchup.Entries.Add(new MatchupEntrieModel { matchupParent = match });
+                    currMatchup.Entries.Add(new MatchupEntrieModel { matchupParent = match});
                     if (currMatchup.Entries.Count > 1)
                     {
                         currMatchup.matchRound = round;

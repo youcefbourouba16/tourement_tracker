@@ -15,11 +15,9 @@ namespace Tourament_library.DataAccess
         private const string peopleFile = "peopleFile.csv";
         private const string teamFile = "teamFile.csv";
         private const string touramentFile = "TouramentFile.csv";
-
-
-
-
-
+        private const string Matchupfile = "MatchupFile.csv";
+        private const string MatchupEntriesFile = "MatchupEntriesFile.csv";
+        private const string roundFile = "roundFile.csv";
         public PrizeModel createPrize(PrizeModel model)
         {
             //load the text file
@@ -106,7 +104,8 @@ namespace Tourament_library.DataAccess
             teams.saveToteamFile(teamFile);
             return team;
         }
-
+        
+       
         public void createTourament(tourement_Model tr)
         {
             List<tourement_Model> touraments = touramentFile.getFullpath().loadFile().
@@ -125,11 +124,64 @@ namespace Tourament_library.DataAccess
             }
             // add the new record (id+1)
             tr.id = currentID;
+            
             touraments.Add(tr);
+            
 
-            touraments.saveTouramentFile(touramentFile);
+            
+            touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,roundFile);
             
         }
+        public void createMatchup(MatchupModel Matchup)
+        {
+            List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().
+                convertToMatchuplList(MatchupEntriesFile,teamFile,peopleFile);
+            int currentID;
+            try
+            {
+                currentID = Matchups.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            Matchup.id = currentID;
+
+            Matchups.Add(Matchup);
+
+
+
+            Matchups.saveMatchupList(Matchupfile);
+
+        }
+        public void createMatchupEntries(MatchupEntrieModel MatchupEntrie)
+        {
+            List<MatchupEntrieModel> MatchupEnries = Matchupfile.getFullpath().loadFile().
+                convertToMatchEntryModelList(teamFile,Matchupfile,peopleFile);
+            int currentID;
+            try
+            {
+                currentID = MatchupEnries.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            // add the new record (id+1)
+            MatchupEntrie.id = currentID;
+
+            MatchupEnries.Add(MatchupEntrie);
+
+
+
+            MatchupEnries.saveEntriesList(Matchupfile);
+
+        }
+
+
     }
     
 }

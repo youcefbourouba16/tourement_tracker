@@ -125,22 +125,36 @@ namespace TrackerUi
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (tb_teamName.Text != "" && availableTeamMember != null)
+            teamModel team = new teamModel();
+            team.teamName = tb_teamName.Text;
+            team.team_member = selectedTeamMember;
+            if (tb_teamName.Text == "" )
             {
-                teamModel team = new teamModel();
-                team.teamName = tb_teamName.Text;
-                team.team_member = selectedTeamMember;
-                team = globalConfig.Connections.createTeam(team);
-                callingForm.teamComplete(team);
-                this.Close();
-                //selectedTeamMember = new List<person>();
-                //teamMemberListBox.DataSource = null;
-                //tb_teamName.Text = "";
-                //wireUpList();
 
+                MessageBox.Show("please enter team Name. !!!", "INVALID team name.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
 
             }
-            else MessageBox.Show("please verfie your information !!.");
+            if (selectedTeamMember.Count < 2)
+            {
+
+                MessageBox.Show("Team Member should be 2 or more. !!!", "INVALID team Members.",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+
+            }
+            team = globalConfig.Connections.createTeam(team);
+            callingForm.teamComplete(team);
+            this.Close();
+            //selectedTeamMember = new List<person>();
+            //teamMemberListBox.DataSource = null;
+            //tb_teamName.Text = "";
+            //wireUpList();
+             
+            
 
 
         }

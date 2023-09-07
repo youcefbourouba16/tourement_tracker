@@ -98,7 +98,7 @@ namespace Tourament_library.DataAccess
             {
                 var p = new DynamicParameters();
                 p.Add("@touramentName", tr.TourramentName);
-                p.Add("@@entrieFee", tr.EntryFee);
+                p.Add("@entrieFee", tr.EntryFee);
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("sp_TouramentInsert", p, commandType: CommandType.StoredProcedure);
@@ -146,12 +146,26 @@ namespace Tourament_library.DataAccess
                         {
                             p = new DynamicParameters();
                             p.Add("@MatchupID", match.id);
-                            p.Add("@ParentMatchupID", entry.matchupParent);
-                            p.Add("@TeamCompetingID", entry.teamCompreting.id);
+                            if ( entry.matchupParent!=null)
+                            {
+                                p.Add("@ParentMatchupID", entry.matchupParent.id);
+                            }
+                            else {
+                                p.Add("@ParentMatchupID", null);
+                               
+                            }
+                            if (entry.teamCompreting != null )
+                            {
+                                p.Add("@TeamCompetingID", entry.teamCompreting.id);
+                            }
+                            else
+                            {
+                                p.Add("@TeamCompetingID", null);
+                            }
                             // -todo TeamEntries score didnt setup
                             p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                             connection.Execute("sp_matchUpsEntriesInsert", p, commandType: CommandType.StoredProcedure);
-                            entry.id = p.Get<int>("@id");
+                            
                         }
                     }
 

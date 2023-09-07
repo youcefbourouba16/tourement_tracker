@@ -150,6 +150,13 @@ namespace TrackerUi
                     MessageBoxIcon.Information);
                 return;
             }
+            if (teamsSelected.Count < 2)
+            {
+                MessageBox.Show("the number of team should be 2 team or more", "cannot create tourament",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                return;
+            }
             tourement_Model tr = new tourement_Model(
                                 touramentName.Text,
                                 double.Parse(entryFee_val.Text),
@@ -160,16 +167,11 @@ namespace TrackerUi
             // teams should be 2 or more
             //if it's number team count id even can divie by 2 do not add byes ==>else ad one byes in first round
             // create rounds (round 1 that other rounds)
-            if (teamsSelected.Count==1)
-            {
-                MessageBox.Show("the number of team should be 2 team or more", "cannot create tourament",
-                   MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                return;
-            }
+            
             tourLogic.CreateRounds(tr);
+            
 
-            globalConfig.Connections.createTourament(tr);
+             globalConfig.Connections.createTourament(tr);
             /// todo -- close this form or make it get me to next form
             this.Close();
 
