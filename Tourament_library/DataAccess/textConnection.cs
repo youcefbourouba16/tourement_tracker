@@ -127,6 +127,17 @@ namespace Tourament_library.DataAccess
             
             touraments.Add(tr);
             
+                matchups.saveMatchupList(Matchupfile);
+                foreach (MatchupModel item in matchups)
+                {
+                    item.id = currentMatchupId;
+                    currentID++;
+                    matchupsList1.Add(item);
+                    foreach (MatchupEntrieModel entry in item.Entries)
+                    {
+                        entry.id = currentEntryId;
+                        matchupEntrieModels1.Add(entry);
+                    }
 
             
             touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,roundFile);
