@@ -105,13 +105,15 @@ namespace Tourament_library.DataAccess
             return team;
         }
         
-       
+        
         public void createTourament(tourement_Model tr)
         {
             List<tourement_Model> touraments = touramentFile.getFullpath().loadFile().
                 convertToTouramentModelList(teamFile,
                                         peopleFile,
-                                        PrizeFile);
+                                        PrizeFile,
+                                        Matchupfile,
+                                        MatchupEntriesFile);
             int currentID;
             try
             {
@@ -124,75 +126,67 @@ namespace Tourament_library.DataAccess
             }
             // add the new record (id+1)
             tr.id = currentID;
-            
             touraments.Add(tr);
+            tr.saveRoundsFile(Matchupfile, MatchupEntriesFile, roundFile,teamFile,peopleFile);
             
-                matchups.saveMatchupList(Matchupfile);
-                foreach (MatchupModel item in matchups)
-                {
-                    item.id = currentMatchupId;
-                    currentID++;
-                    matchupsList1.Add(item);
-                    foreach (MatchupEntrieModel entry in item.Entries)
-                    {
-                        entry.id = currentEntryId;
-                        matchupEntrieModels1.Add(entry);
-                    }
 
-            
+               
+                        
+                    
             touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,roundFile);
             
         }
-        public void createMatchup(MatchupModel Matchup)
-        {
-            List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().
-                convertToMatchuplList(MatchupEntriesFile,teamFile,peopleFile);
-            int currentID;
-            try
-            {
-                currentID = Matchups.OrderByDescending(x => x.id).First().id + 1;
-            }
-            catch (Exception)
-            {
+        //public void createMatchup(MatchupModel Matchup)
+        //{
+        //    List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().
+        //        convertToMatchuplList(MatchupEntriesFile,teamFile,peopleFile);
+        //    int currentID;
+        //    try
+        //    {
+        //        currentID = Matchups.OrderByDescending(x => x.id).First().id + 1;
+        //    }
+        //    catch (Exception)
+        //    {
 
-                currentID = 1;
-            }
-            // add the new record (id+1)
-            Matchup.id = currentID;
+        //        currentID = 1;
+        //    }
+        //    // add the new record (id+1)
+        //    Matchup.id = currentID;
 
-            Matchups.Add(Matchup);
-
-
-
-            Matchups.saveMatchupList(Matchupfile);
-
-        }
-        public void createMatchupEntries(MatchupEntrieModel MatchupEntrie)
-        {
-            List<MatchupEntrieModel> MatchupEnries = Matchupfile.getFullpath().loadFile().
-                convertToMatchEntryModelList(teamFile,Matchupfile,peopleFile);
-            int currentID;
-            try
-            {
-                currentID = MatchupEnries.OrderByDescending(x => x.id).First().id + 1;
-            }
-            catch (Exception)
-            {
-
-                currentID = 1;
-            }
-            // add the new record (id+1)
-            MatchupEntrie.id = currentID;
-
-            MatchupEnries.Add(MatchupEntrie);
+        //    Matchups.Add(Matchup);
 
 
 
-            MatchupEnries.saveEntriesList(Matchupfile);
+        //    Matchups.saveMatchupList(Matchupfile);
 
-        }
+        //}
+        //public void createMatchupEntries(MatchupEntrieModel MatchupEntrie)
+        //{
+        //    List<MatchupEntrieModel> MatchupEnries = Matchupfile.getFullpath().loadFile().
+        //        convertToMatchEntryModelList(teamFile,Matchupfile,peopleFile);
+        //    int currentID;
+        //    try
+        //    {
+        //        currentID = MatchupEnries.OrderByDescending(x => x.id).First().id + 1;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        currentID = 1;
+        //    }
+        //    // add the new record (id+1)
+        //    MatchupEntrie.id = currentID;
+
+        //    MatchupEnries.Add(MatchupEntrie);
+
+
+
+        //    MatchupEnries.saveEntriesList(Matchupfile);
+
+        //}
 
 
     }
+   
     
 }

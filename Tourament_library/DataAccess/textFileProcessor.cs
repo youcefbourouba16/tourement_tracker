@@ -155,34 +155,42 @@ namespace Tourament_library.DataAccess.Convert
             string matchupENtriesFIles,
             string roundFile)
         {
-            List<string> lines = new List<string>();
+            List<string> lines = new List<string>(); /*touramentFile.getFullpath().loadFile();*/
             foreach (tourement_Model tr in touraments)
             {
-                saveRoundsFile(tr.round, matchupFile, matchupENtriesFIles, roundFile);
                 lines.Add($"{tr.id} , {tr.TourramentName} ," +
                     $"{tr.EntryFee}," +
                     $" {convertTeamEntriesListToString(tr.EnteredTeams)}," +
-                    $"{convertTourPrizesListToString(tr.Prizes)}," 
-                    /*$"{convertRoundListToString(tr.round)}"*/);
+                    $"{convertTourPrizesListToString(tr.Prizes)},{convertTourRoumdListToString(tr.round)}");
             }
-            string s = touramentFile.getFullpath();
+
             File.WriteAllLines(touramentFile.getFullpath(), lines);
         }
         public static void saveMatchupList(this List<MatchupModel> Matchups, string MatchupFile)
         {
-            List<string> lines = new List<string>();
+            List<string> lines = MatchupFile.getFullpath().loadFile();
             foreach (MatchupModel tr in Matchups)
             {
-                lines.Add($"{tr.id} , {convertTeamMatchupEntriesListToString(tr.Entries)} ," +
+                if (tr.Winner!=null)
+                {
+                    lines.Add($"{tr.id} , {convertTeamMatchupEntriesListToString(tr.Entries)} ," +
                     $"{tr.Winner}," +
                     $" {(tr.matchRound)}");
+                }
+                else
+                {
+                    lines.Add($"{tr.id} , {convertTeamMatchupEntriesListToString(tr.Entries)} ," +
+                    "0," +
+                    $" {(tr.matchRound)}");
+                }
+                
             }
             
             File.WriteAllLines(MatchupFile.getFullpath(), lines);
         }
         public static void saveEntriesList(this List<MatchupEntrieModel> Entries, string matchupEntriesFile)
         {
-            List<string> lines = new List<string>();
+            List<string> lines = matchupEntriesFile.getFullpath().loadFile();
             string output="";
             foreach (MatchupEntrieModel tr in Entries)
             {
@@ -203,40 +211,163 @@ namespace Tourament_library.DataAccess.Convert
                 }else output += $" ,"; 
 
                 lines.Add(output);
-
-            }
-            string s = matchupEntriesFile.getFullpath();
-            File.WriteAllLines(matchupEntriesFile.getFullpath(), lines);
-        }
-        public static void saveRoundsFile(
-            List<List<MatchupModel>> listOfListMatchup,
-            string matchupFile,
-            string matchupEntriesFile,
-            string roundFile
-            )
-        {
-            List<string> lines = new List<string>();
-            string output = "";
-            foreach (List<MatchupModel> list in listOfListMatchup)
-            {
-                
-                saveMatchupList(list, matchupFile);
-                
-                foreach (MatchupModel e in list)
-                {
-                    
-                    output += $"{e.id}^";
-                    
-                    saveEntriesList(e.Entries, matchupEntriesFile);
-                }
-                output += $"|";
-                lines.Add(output);
+                output = "";
 
             }
             
-            File.WriteAllLines(roundFile.getFullpath(), lines);
+            File.WriteAllLines(matchupEntriesFile.getFullpath(), lines);
         }
-        
+        public static void saveRoundsFile(
+            this tourement_Model tourament,
+            string matchupFile,
+            string matchupEntriesFile,
+            string roundFile,
+            string teamFile,
+            string peopleFile
+            )
+        {
+            List<MatchupModel> matchups = matchupFile.getFullpath().loadFile().convertToMatchuplList(matchupEntriesFile, teamFile, peopleFile);
+            List<MatchupEntrieModel> entries = matchupEntriesFile.getFullpath().loadFile().convertToMatchEntryModelList(teamFile, matchupFile, peopleFile);
+            List<MatchupModel> lines = roundFile.getFullpath().loadFile().convertToRoundList(teamFile, matchupFile, peopleFile);
+            List<string> strings = roundFile.getFullpath().loadFile();
+            string output = "";
+            int matchupListID = getIDMatchupList(matchups);
+            int entriesListID = getIDEnrtyList(entries);
+            List<MatchupModel> newMatchupsList = new List<MatchupModel>();
+            List<MatchupEntrieModel> newEntriesList = new List<MatchupEntrieModel>();
+            foreach (List<MatchupModel> list in tourament.round)
+            {
+                
+                
+
+                foreach (MatchupModel e in list)
+                {
+                    e.id = matchupListID;
+                    matchupListID++;
+                    output += $"{e.id}^";
+                    newMatchupsList.Add(e);
+                    foreach (MatchupEntrieModel entry in e.Entries)
+                    {
+                         entry.id = entriesListID;
+                        entriesListID++;
+                        
+                         newEntriesList.Add(entry);
+                    }
+                    lines.Add(e);
+                }
+            }
+
+            //string str = output.Substring(0, output.Length - 1);
+            //strings.Add(str);
+            string str = convertTourRoumdListToString(tourament.round);
+            strings.Add(str);
+            saveEntriesList(newEntriesList, matchupEntriesFile);
+            saveMatchupList(newMatchupsList, matchupFile);
+            File.WriteAllLines(roundFile.getFullpath(), strings);
+        }
+        public static string convertTourRoumdListToString(List<List<MatchupModel>> rounds)
+        {
+            //(round id ^ id ^ id | id ^ id ^ id..)
+            string output = "";
+            if (rounds.Count == 0)
+            {
+                return output;
+
+            }
+            foreach (List<MatchupModel> round in rounds)
+            {
+                foreach (MatchupModel model in round)
+                {
+                    if (model!=null)
+                    {
+                        output += $"{model.id}^";
+                    }else output += $"^";
+
+                }
+                output += "|";
+            }
+            string str = output.Substring(0, output.Length - 1);
+            return str;
+            /// todo- this might be faulse(convertTourRoumdListToString) fonction
+        }
+
+        public static int getIDMatchupList(List<MatchupModel> matchups)
+        {
+            int currentID;
+            try
+            {
+                currentID = matchups.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            return currentID;
+        }
+        public static int getIDRound(List<MatchupModel> matchups)
+        {
+            int currentID;
+            try
+            {
+                currentID = matchups.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            return currentID;
+        }
+        public static int getIDEnrtyList(List<MatchupEntrieModel> matchups)
+        {
+            int currentID;
+            try
+            {
+                currentID = matchups.OrderByDescending(x => x.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+
+                currentID = 1;
+            }
+            return currentID;
+        }
+        public static List<MatchupModel> convertToRoundList(
+            this List<string> lines,
+            string teamFile,
+            string MatchupFile,
+            string peopleFile
+            )
+        {
+            //roundsID,matchupId^matchupId^matchupId|matchupId^matchupId^matchupId
+            List<MatchupModel> output = new List<MatchupModel>();
+            List<MatchupModel> matchups = MatchupFile.getFullpath().loadFile().convertToMatchuplList(MatchupFile, teamFile, peopleFile);
+            if (matchups.Count == 0)
+            {
+                return output;
+            }
+            foreach (var line in lines)
+            {
+                string[] parts = line.Split(',');
+                MatchupModel e = new MatchupModel();
+                string[] parts1 = parts[0].Split('|');
+                foreach (var line1 in parts1)
+                {
+                    string[] matchupsID = line1.Split('^');
+                    foreach (var b in matchupsID)
+                    {
+                        if (b!="")
+                        {
+                            e = matchups.Where(x => x.id == int.Parse(b)).First();
+                        }
+                        
+                    }
+                    output.Add(e);
+                }
+            }
+            return output;
+        }
         public static List<MatchupEntrieModel> convertToMatchEntryModelList(
             this List<string> lines,
             string teamFile,
@@ -255,9 +386,17 @@ namespace Tourament_library.DataAccess.Convert
                 string[] parts = line.Split(',');
                 MatchupEntrieModel p = new MatchupEntrieModel();
                 p.id = int.Parse(parts[0]);
-                p.teamCompreting = teams.Where(x => x.id == int.Parse(parts[1])).First();
+                if (parts[1]==" ")
+                {
+                    p.teamCompreting = null;
+                }
+                else p.teamCompreting = teams.Where(x => x.id == int.Parse(parts[1])).First();
                 p.score = double.Parse(parts[2]);
-                p.matchupParent = matchups.Where(x => x.id == int.Parse(parts[3])).First(); 
+                if (parts[3] == " ")
+                {
+                    p.matchupParent = null;
+                }
+                else p.matchupParent = matchups.Where(x => x.id == int.Parse(parts[3])).First(); 
                 output.Add(p);
             }
             return output;
@@ -269,23 +408,21 @@ namespace Tourament_library.DataAccess.Convert
             string peopleFile)
         {
             List<MatchupModel> output = new List<MatchupModel>();
-            List<MatchupEntrieModel> MatchupEntries = MatchentrieFile.getFullpath().loadFile().convertToMatchEntryModelList(teamFile,MatchentrieFile,peopleFile);
+            // todo-- i have to add entries inserted in matchup.entry 
             List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModelList(peopleFile);
-            if (MatchupEntries.Count == 0)
-            {
-                return output;
-            }
+            
             foreach (var line in lines)
             {
                 string[] parts = line.Split(',');
                 MatchupModel p = new MatchupModel();
                 p.id = int.Parse(parts[0]);
-                string[] entries = parts[1].Split('^');
-                foreach (var e in entries)
+                if (parts[2] == "0")
                 {
-                    p.Entries.Add(MatchupEntries.Where(x => x.id == int.Parse(e)).First());
+                    p.Winner = null;
                 }
-                p.Winner = teams.Where(x => x.id == int.Parse(parts[2])).First();
+                else p.Winner = teams.Where(x => x.id == int.Parse(parts[2])).First();
+                
+                
                 p.matchRound = int.Parse(parts[3]);
                 output.Add(p);
             }
@@ -355,27 +492,7 @@ namespace Tourament_library.DataAccess.Convert
             string str = output.Substring(0, output.Length - 1);
             return str;
         }
-        public static string convertTourRoumdListToString(List<List<MatchupModel>> rounds)
-        {
-            //(round id ^ id ^ id | id ^ id ^ id..)
-            string output = "";
-            if (rounds.Count == 0)
-            {
-                return output;
-
-            }
-            foreach (List<MatchupModel> round in rounds)
-            {
-                foreach (MatchupModel model in round)
-                {
-                    output += $"{model.id}^";
-                }
-                output += "|";
-            }
-            string str = output.Substring(0, output.Length - 1);
-            return str; 
-            /// todo- this might be faulse(convertTourRoumdListToString) fonction
-        }
+        
         
 
 
@@ -422,15 +539,18 @@ namespace Tourament_library.DataAccess.Convert
             this List<string> lines, 
             string teamfile,
             string peopleFile,
-            string prizeFile
+            string prizeFile,
+            string matchupFile,
+            string matchupEntryFile
             )
         {
 
             List<tourement_Model> trs = new List<tourement_Model>();
             List<teamModel> teams = teamfile.getFullpath().loadFile().convertToteamModelList(peopleFile);
             List<PrizeModel> prizes = prizeFile.getFullpath().loadFile().convertToPrizeModel();
-            
-            
+            List<MatchupModel> matchups=matchupFile.getFullpath().loadFile().convertToMatchuplList(matchupEntryFile,teamfile,peopleFile);
+
+
 
             /// id,touramentName,fee,(team1^team2^team3),(prize*prize1*prize2), (round id^id^id|id^id^id..)..
             foreach (string line in lines)
@@ -458,14 +578,29 @@ namespace Tourament_library.DataAccess.Convert
                         p.Prizes.Add(prizes.Where(x => x.id == int.Parse(id)).First());
                     }
                 }
+                List<MatchupModel> mathups = new List<MatchupModel>();
+                List<List<MatchupModel>> rounds = new List<List<MatchupModel>>();
 
-                // --todo i need to load round from text file after (round id^id^id|id^id^id..)
-                
-                
-                
+                string[] RdPart = trParts[5].Split('|');
+                foreach (var id in RdPart)
+                {
+                    
+                    string[] MatchupPart = id.Split('^');
+                    foreach (var mt in MatchupPart)
+                    {
+                        if (mt != "")
+                        {
+                            mathups.Add(matchups.Where(x => x.id == int.Parse(mt)).First());
+                        }
+                        else mathups.Add(null);
+                    }
+                    rounds.Add(mathups);
+                    mathups = new List<MatchupModel>();
+
+
+                }
+                p.round = rounds;
                 trs.Add(p);
-                
-
             }
             return trs;
 
