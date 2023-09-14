@@ -62,6 +62,7 @@
     <Compile Include="TouramentLogic\tourLogic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DataBase\tourament.bacpac" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
