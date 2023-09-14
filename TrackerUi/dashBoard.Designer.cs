@@ -49,8 +49,9 @@
             creatTourament.Name = "creatTourament";
             creatTourament.Size = new Size(385, 58);
             creatTourament.TabIndex = 83;
-            creatTourament.Text = "ADD TEAM";
+            creatTourament.Text = "CREATE NEW TOURAMENT";
             creatTourament.UseVisualStyleBackColor = false;
+            creatTourament.Click += creatTourament_Click;
             // 
             // loadTorament
             // 
@@ -61,7 +62,7 @@
             loadTorament.FlatStyle = FlatStyle.Flat;
             loadTorament.Font = new Font("Unispace", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
             loadTorament.ForeColor = Color.Black;
-            loadTorament.Location = new Point(267, 281);
+            loadTorament.Location = new Point(267, 289);
             loadTorament.Name = "loadTorament";
             loadTorament.Size = new Size(133, 33);
             loadTorament.TabIndex = 82;
@@ -117,6 +118,7 @@
             MaximizeBox = false;
             Name = "dashBoard";
             Text = "dashBoard";
+            Load += dashBoard_Load;
             ResumeLayout(false);
             PerformLayout();
         }

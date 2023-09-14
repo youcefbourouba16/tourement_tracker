@@ -20,7 +20,10 @@ namespace Tourament_library.DataAccess
         List<person> getPersonAll();
         List<teamModel> getTeamAll();
 
-        
+        List<tourement_Model> getTourAll();
+
+
+
 
 
 

@@ -158,7 +158,7 @@ namespace Tourament_library.DataAccess.Convert
             List<string> lines = new List<string>(); /*touramentFile.getFullpath().loadFile();*/
             foreach (tourement_Model tr in touraments)
             {
-                lines.Add($"{tr.id} , {tr.TourramentName} ," +
+                lines.Add($"{tr.id} , {tr.TouramentName} ," +
                     $"{tr.EntryFee}," +
                     $" {convertTeamEntriesListToString(tr.EnteredTeams)}," +
                     $"{convertTourPrizesListToString(tr.Prizes)},{convertTourRoumdListToString(tr.round)}");
@@ -559,7 +559,7 @@ namespace Tourament_library.DataAccess.Convert
                 tourement_Model p = new tourement_Model();
                 List<MatchupModel> e = new List<MatchupModel>();
                 p.id = int.Parse(trParts[0]);
-                p.TourramentName = trParts[1];
+                p.TouramentName = trParts[1];
                 p.EntryFee = double.Parse(trParts[2]);
                 string[] tmParts = trParts[3].Split('^');
                 foreach (var id in tmParts)

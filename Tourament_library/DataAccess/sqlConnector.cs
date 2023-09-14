@@ -97,7 +97,7 @@ namespace Tourament_library.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
             {
                 var p = new DynamicParameters();
-                p.Add("@touramentName", tr.TourramentName);
+                p.Add("@touramentName", tr.TouramentName);
                 p.Add("@entrieFee", tr.EntryFee);
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
@@ -207,6 +207,43 @@ namespace Tourament_library.DataAccess
             return output;
         }
 
+        public List<tourement_Model> getTourAll()
+        {
+            List<tourement_Model> output;
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                output = connection.Query<tourement_Model>("sp_touramentGetAll").ToList();
+                foreach (tourement_Model tour in output)
+                {
+                    //                 select Tourament1.id,
+                    //Tourament1.TouramentName,
+                    //Tourament1.EntryFee,
+                    //Tourament1.Active
+                    //     from Tourament1
+                    var p = new DynamicParameters();
+                    var e = new DynamicParameters();
+                    
+                    p.Add("@TouramentID", tour.id);
+                    
+                    tour.EnteredTeams = connection.Query<teamModel>("spTeam_getBytouramentID", p
+                        , commandType: CommandType.StoredProcedure).ToList();
+                    foreach (teamModel team in tour.EnteredTeams)
+                    {
+                        e.Add("@teamID", team.id);
+                        team.team_member = connection.Query<person>("sp_teamMember_getByTeam", e
+                        , commandType: CommandType.StoredProcedure).ToList();
+
+                    }
+                    tour.Prizes = connection.Query<PrizeModel>("spPrizes_getByTouramentID", p
+                        , commandType: CommandType.StoredProcedure).ToList();
+
+                }
+            }
+            return output;
+        }
         
+
+
+
     }
 }

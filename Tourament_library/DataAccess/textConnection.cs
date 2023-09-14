@@ -136,6 +136,11 @@ namespace Tourament_library.DataAccess
             touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,roundFile);
             
         }
+
+        public List<tourement_Model> getTourAll()
+        {
+            throw new NotImplementedException();
+        }
         //public void createMatchup(MatchupModel Matchup)
         //{
         //    List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().

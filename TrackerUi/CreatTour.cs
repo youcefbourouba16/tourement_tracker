@@ -15,16 +15,18 @@ namespace TrackerUi
 {
     public partial class CreatTour : Form, IPrizeRequester, IteamRequester
     {
+        ITourRequester callingForm;
         List<PrizeModel> PrizesAll = new List<PrizeModel>();
         List<teamModel> teamAll = globalConfig.Connections.getTeamAll();
         List<teamModel> teamsSelected = new List<teamModel>();
 
 
-        public CreatTour()
+        public CreatTour(ITourRequester caller)
         {
             InitializeComponent();
             wireUpPrizeList();
             wireUpAvailableTeamsList();
+            callingForm = caller;
 
 
 
@@ -173,6 +175,7 @@ namespace TrackerUi
 
              globalConfig.Connections.createTourament(tr);
             /// todo -- close this form or make it get me to next form
+            callingForm.tourComplete(tr);
             this.Close();
 
 
