@@ -45,7 +45,7 @@
             playedOnly_checkBox = new CheckBox();
             round_list = new ComboBox();
             label3 = new Label();
-            teamName = new Label();
+            TourName = new Label();
             label1 = new Label();
             SuspendLayout();
             // 
@@ -68,7 +68,7 @@
             monthCalendar1.BackColor = SystemColors.MenuHighlight;
             monthCalendar1.Font = new Font("Simple Indust Outline", 9F, FontStyle.Bold, GraphicsUnit.Point);
             monthCalendar1.ForeColor = SystemColors.MenuHighlight;
-            monthCalendar1.Location = new Point(427, 17);
+            monthCalendar1.Location = new Point(452, 18);
             monthCalendar1.Name = "monthCalendar1";
             monthCalendar1.TabIndex = 36;
             // 
@@ -89,6 +89,7 @@
             score_teamTWO.Name = "score_teamTWO";
             score_teamTWO.Size = new Size(61, 23);
             score_teamTWO.TabIndex = 34;
+            score_teamTWO.KeyPress += score_teamTWO_KeyPress;
             // 
             // label8
             // 
@@ -140,6 +141,7 @@
             score_teamONE.Name = "score_teamONE";
             score_teamONE.Size = new Size(61, 23);
             score_teamONE.TabIndex = 29;
+            score_teamONE.KeyPress += score_teamTWO_KeyPress;
             // 
             // label7
             // 
@@ -180,6 +182,8 @@
             // playedOnly_checkBox
             // 
             playedOnly_checkBox.AutoSize = true;
+            playedOnly_checkBox.Checked = true;
+            playedOnly_checkBox.CheckState = CheckState.Checked;
             playedOnly_checkBox.FlatStyle = FlatStyle.Flat;
             playedOnly_checkBox.Font = new Font("Cascadia Mono SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             playedOnly_checkBox.ForeColor = Color.Black;
@@ -211,16 +215,16 @@
             label3.TabIndex = 22;
             label3.Text = "Round";
             // 
-            // teamName
+            // TourName
             // 
-            teamName.AutoSize = true;
-            teamName.Font = new Font("Courier New", 13F, FontStyle.Bold, GraphicsUnit.Point);
-            teamName.ForeColor = Color.MidnightBlue;
-            teamName.Location = new Point(199, 39);
-            teamName.Name = "teamName";
-            teamName.Size = new Size(120, 21);
-            teamName.TabIndex = 21;
-            teamName.Text = "<teamName>";
+            TourName.AutoSize = true;
+            TourName.Font = new Font("Courier New", 13F, FontStyle.Bold, GraphicsUnit.Point);
+            TourName.ForeColor = Color.MidnightBlue;
+            TourName.Location = new Point(199, 39);
+            TourName.Name = "TourName";
+            TourName.Size = new Size(120, 21);
+            TourName.TabIndex = 21;
+            TourName.Text = "<teamName>";
             // 
             // label1
             // 
@@ -255,12 +259,13 @@
             Controls.Add(playedOnly_checkBox);
             Controls.Add(round_list);
             Controls.Add(label3);
-            Controls.Add(teamName);
+            Controls.Add(TourName);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "mainApp";
             Text = "mainApp";
+            KeyPress += score_teamTWO_KeyPress;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -283,7 +288,7 @@
         private CheckBox playedOnly_checkBox;
         private ComboBox round_list;
         private Label label3;
-        private Label teamName;
+        private Label TourName;
         private Label label1;
     }
 }

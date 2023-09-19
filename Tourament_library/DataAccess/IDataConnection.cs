@@ -15,7 +15,6 @@ namespace Tourament_library.DataAccess
         person ceatePeson(person person1);
         teamModel createTeam(teamModel team);
          void createTourament(tourement_Model tr);
-        /// todo-  notice that we changed create tourament to void
 
         List<person> getPersonAll();
         List<teamModel> getTeamAll();

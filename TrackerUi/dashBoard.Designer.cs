@@ -68,6 +68,7 @@
             loadTorament.TabIndex = 82;
             loadTorament.Text = "LOAD";
             loadTorament.UseVisualStyleBackColor = false;
+            loadTorament.Click += loadTorament_Click;
             // 
             // label5
             // 

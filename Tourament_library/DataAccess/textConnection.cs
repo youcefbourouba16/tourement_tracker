@@ -127,19 +127,18 @@ namespace Tourament_library.DataAccess
             // add the new record (id+1)
             tr.id = currentID;
             touraments.Add(tr);
-            tr.saveRoundsFile(Matchupfile, MatchupEntriesFile, roundFile,teamFile,peopleFile);
             
 
                
                         
                     
-            touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,roundFile);
+            touraments.saveTouramentFile(touramentFile,Matchupfile,MatchupEntriesFile,teamFile,peopleFile);
             
         }
 
         public List<tourement_Model> getTourAll()
         {
-            throw new NotImplementedException();
+            return touramentFile.getFullpath().loadFile().convertToTouramentModelList(teamFile, peopleFile, PrizeFile, Matchupfile, MatchupEntriesFile);
         }
         //public void createMatchup(MatchupModel Matchup)
         //{

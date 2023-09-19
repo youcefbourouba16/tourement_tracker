@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Tourament_library.Models;
@@ -135,7 +136,7 @@ namespace Tourament_library.DataAccess
                     {
                         
                         p = new DynamicParameters();
-                        p.Add("@MatchupRound", match.matchRound);
+                        p.Add("@MatchupRound", match.MatchupRound);
                         p.Add("@touramentID", tr.id);
                         // -todo Matchup  winner didnt setup
                         p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -210,6 +211,10 @@ namespace Tourament_library.DataAccess
         public List<tourement_Model> getTourAll()
         {
             List<tourement_Model> output;
+            List<MatchupModel> matchups = new List<MatchupModel>(); 
+            
+            List<MatchupEntrieModel> entries = new List<MatchupEntrieModel>();
+
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
             {
                 output = connection.Query<tourement_Model>("sp_touramentGetAll").ToList();
@@ -222,7 +227,9 @@ namespace Tourament_library.DataAccess
                     //     from Tourament1
                     var p = new DynamicParameters();
                     var e = new DynamicParameters();
-                    
+                    var l = new DynamicParameters();
+
+
                     p.Add("@TouramentID", tour.id);
                     
                     tour.EnteredTeams = connection.Query<teamModel>("spTeam_getBytouramentID", p
@@ -236,6 +243,60 @@ namespace Tourament_library.DataAccess
                     }
                     tour.Prizes = connection.Query<PrizeModel>("spPrizes_getByTouramentID", p
                         , commandType: CommandType.StoredProcedure).ToList();
+                    
+                    
+                    
+                    matchups = connection.Query<MatchupModel>("spMatchup_getTouramentID", p
+                    , commandType: CommandType.StoredProcedure).ToList();
+                    foreach (MatchupModel mathup in matchups)
+                    {
+                        l.Add("@matchupID", mathup.id);
+                        mathup.Entries = connection.Query<MatchupEntrieModel>("spMatchupEntries_getBymatchupID", l
+                        , commandType: CommandType.StoredProcedure).ToList();
+                        
+                        List<teamModel> teams = getTeamAll();
+                        if (mathup.winnerID>0)
+                        {
+                            mathup.Winner = teams.Where(x => x.id == mathup.winnerID).First();
+                        }
+                        
+                        foreach (MatchupEntrieModel me in mathup.Entries)
+                        {
+                            if (me.TeamCompetingID >0)
+                            {
+                                me.teamCompreting=teams.Where(x => x.id == me.TeamCompetingID).First();
+                            }
+                            if (me.ParentMatchupID > 0)
+                            {
+
+                                me.matchupParent = matchups.Where(x => x.id == me.ParentMatchupID).First();
+                            }
+                        }
+                    }
+                    // todo-- implement rounds
+                    // List<List<<teamMOdel>
+                    
+                    List<MatchupModel> round= new List<MatchupModel>();
+                    int currRound = 1;
+                    foreach (MatchupModel mathup in matchups)
+                    {
+                        if (mathup.MatchupRound == currRound)
+                        {
+                            round.Add(mathup);
+                        }
+                        else
+                        {
+                            tour.round.Add(round);
+                            round = new List<MatchupModel>();
+                            round.Add(mathup);
+                            currRound++;
+                        }
+                        
+                    }
+                    tour.round.Add(round);
+
+
+
 
                 }
             }

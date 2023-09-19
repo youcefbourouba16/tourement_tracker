@@ -41,7 +41,7 @@ namespace Tourament_library.TouramentLogic
                     currMatchup.Entries.Add(new MatchupEntrieModel { matchupParent = match});
                     if (currMatchup.Entries.Count > 1)
                     {
-                        currMatchup.matchRound = round;
+                        currMatchup.MatchupRound = round;
                         currRound.Add(currMatchup);
                         currMatchup = new MatchupModel();
                         model.round.Add(currRound);
@@ -63,14 +63,28 @@ namespace Tourament_library.TouramentLogic
             MatchupModel curr = new MatchupModel();
             foreach (teamModel team in teams)
             {
-                curr.Entries.Add(new MatchupEntrieModel { teamCompreting = team });
-                if (byess>1 || curr.Entries.Count>1)
+                if (byess>=1)
                 {
-                    curr.matchRound = 1;
+                    curr.Entries.Add(new MatchupEntrieModel { teamCompreting = team,TeamCompetingID = team.id });
+                    curr.Entries.Add(new MatchupEntrieModel { teamCompreting = null,TeamCompetingID=0 });
+                    curr.MatchupRound = 1;
                     output.Add(curr);
-                    curr= new MatchupModel();
-                    byess -=1;
+                    curr = new MatchupModel();
+                    byess -= 1;
+
                 }
+                else
+                {
+                    curr.Entries.Add(new MatchupEntrieModel { teamCompreting = team });
+                    if (curr.Entries.Count > 1)
+                    {
+                        curr.MatchupRound = 1;
+                        output.Add(curr);
+                        curr = new MatchupModel();
+
+                    }
+                }
+                
 
             }
             return output;

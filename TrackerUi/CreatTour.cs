@@ -174,7 +174,6 @@ namespace TrackerUi
             
 
              globalConfig.Connections.createTourament(tr);
-            /// todo -- close this form or make it get me to next form
             callingForm.tourComplete(tr);
             this.Close();
 

@@ -13,11 +13,13 @@ namespace Tourament_library.Models
         /// the 2 team compeing
         /// </summary>
         public teamModel teamCompreting { get; set; }
+        public int TeamCompetingID { get; set; }
         public double score { get; set; }
         /// <summary>
         /// the previos match information 
         /// </summary>
         public MatchupModel matchupParent { get; set; }
+        public int ParentMatchupID { get; set; }
 
         /// <summary>
         /// constracter for score and matche entries and match parent

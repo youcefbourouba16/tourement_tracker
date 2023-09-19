@@ -14,7 +14,7 @@ using Tourament_library.DataAccess;
 
 namespace TrackerUi
 {
-    public partial class dashBoard : Form, ITourRequester
+    public partial class dashBoard : Form, ITourRequester, IMainRequester
     {
         List<tourement_Model> TouramentAll = globalConfig.Connections.getTourAll();
 
@@ -40,12 +40,46 @@ namespace TrackerUi
         {
             CreatTour frm = new CreatTour(this); /// this means this exactly form that  we're in
             frm.Show();
+
         }
 
         public void tourComplete(tourement_Model model)
         {
             TouramentAll.Add(model);
             wireUpTpuramentList();
+        }
+
+        private void loadTorament_Click(object sender, EventArgs e)
+        {
+            
+            tourement_Model tour = createMainApp();
+            if (tour!=null)
+            {
+                mainApp frm1 = new mainApp(this, tour); /// this means this exactly form that  we're in
+
+                //this.Close();
+                frm1.Show();
+            }
+           
+            
+        }
+
+        public tourement_Model createMainApp()
+        {
+            tourement_Model output=new tourement_Model();
+            if (touramentList.SelectedItem != null)
+            {
+                return (tourement_Model)touramentList.SelectedItem;
+            }
+            else {
+                MessageBox.Show("Please select OR Create a Tourament First", "invalide Tourament",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return null;
+            }
+            
+
+            
         }
     }
 }
