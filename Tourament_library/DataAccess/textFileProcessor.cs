@@ -378,42 +378,7 @@ namespace Tourament_library.DataAccess.Convert
             }
             return currentID;
         }
-        public static List<MatchupModel> convertToRoundList(
-            this List<string> lines,
-            string teamFile,
-            string MatchupFile,
-            string peopleFile,
-            string MatchupEntries
-            )
-        {
-            //roundsID,matchupId^matchupId^matchupId|matchupId^matchupId^matchupId
-            List<MatchupModel> output = new List<MatchupModel>();
-            List<MatchupModel> matchups = MatchupFile.getFullpath().loadFile().convertToMatchuplList(MatchupEntries,MatchupFile, teamFile, peopleFile);
-            if (matchups.Count == 0)
-            {
-                return output;
-            }
-            foreach (var line in lines)
-            {
-                string[] parts = line.Split(',');
-                MatchupModel e = new MatchupModel();
-                string[] parts1 = parts[0].Split('|');
-                foreach (var line1 in parts1)
-                {
-                    string[] matchupsID = line1.Split('^');
-                    foreach (var b in matchupsID)
-                    {
-                        if (b!="")
-                        {
-                            e = matchups.Where(x => x.id == int.Parse(b)).First();
-                        }
-                        
-                    }
-                    output.Add(e);
-                }
-            }
-            return output;
-        }
+        
         public static List<MatchupEntrieModel> convertToMatchEntryModelList(
             this List<string> lines,
             string teamFile,
@@ -437,8 +402,14 @@ namespace Tourament_library.DataAccess.Convert
                 if (parts[1]== " ")
                 {
                     p.teamCompreting = null;
+                    p.TeamCompetingID = 0;
                 }
-                else p.teamCompreting = teams.Where(x => x.id == int.Parse(parts[1])).First();
+                else {
+                         p.teamCompreting = teams.Where(x => x.id == int.Parse(parts[1])).First();
+                    p.ParentMatchupID = int.Parse(parts[1]);
+
+                     }
+
                 p.score = double.Parse(parts[2]);
                 if (parts[3] == " ")
                 {
@@ -458,7 +429,6 @@ namespace Tourament_library.DataAccess.Convert
             string peopleFile)
         {
             List<MatchupModel> output = new List<MatchupModel>();
-            // todo-- i have to add entries inserted in matchup.entry 
             List<teamModel> teams = teamFile.getFullpath().loadFile().convertToteamModelList(peopleFile);
             List<MatchupEntrieModel> entires = MatchentrieFile.getFullpath().loadFile().convertToMatchEntryModelList(teamFile, MatchupFile, peopleFile, MatchentrieFile);
            
@@ -538,6 +508,11 @@ namespace Tourament_library.DataAccess.Convert
             foreach (var team in teams)
             {
                 team.id=EntryID;
+                if (team.teamCompreting!=null)
+                {
+                    team.TeamCompetingID = team.teamCompreting.id;
+                }else team.TeamCompetingID = 0;
+
                 EntryID++;
                 output += $"{team.id}^";
             }
@@ -630,6 +605,7 @@ namespace Tourament_library.DataAccess.Convert
                     if (entry.ParentMatchupID!=0)
                     {
                         entry.matchupParent = matchups.Where(x => x.id == entry.ParentMatchupID).First();
+                        entry.teamCompreting=teams.Where(x => x.id == entry.TeamCompetingID).First();
 
                     }
                 }
@@ -675,6 +651,7 @@ namespace Tourament_library.DataAccess.Convert
                         if (mt != "")
                         {
                             mathups.Add(matchups.Where(x => x.id == int.Parse(mt)).First());
+                            
                             
                         }
                         else mathups.Add(null);

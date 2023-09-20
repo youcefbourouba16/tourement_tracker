@@ -24,6 +24,7 @@ namespace TrackerUi
             InitializeComponent();
             callingForm = caller;
             tour = tr;
+            // todo-- team competing in first round need to be fix in test file setting
             loadTour();
             roundGetList();
             wireUpRoundList();
