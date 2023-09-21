@@ -110,6 +110,7 @@
             teamMemberListBox.ScrollAlwaysVisible = true;
             teamMemberListBox.Size = new Size(380, 378);
             teamMemberListBox.TabIndex = 54;
+            teamMemberListBox.SelectedIndexChanged += teamMemberListBox_SelectedIndexChanged;
             // 
             // addMember
             // 

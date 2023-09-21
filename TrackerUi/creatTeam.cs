@@ -128,7 +128,7 @@ namespace TrackerUi
             teamModel team = new teamModel();
             team.teamName = tb_teamName.Text;
             team.team_member = selectedTeamMember;
-            if (tb_teamName.Text == "" )
+            if (tb_teamName.Text == "")
             {
 
                 MessageBox.Show("please enter team Name. !!!", "INVALID team name.",
@@ -153,12 +153,15 @@ namespace TrackerUi
             //teamMemberListBox.DataSource = null;
             //tb_teamName.Text = "";
             //wireUpList();
-             
-            
+
+
 
 
         }
 
+        private void teamMemberListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

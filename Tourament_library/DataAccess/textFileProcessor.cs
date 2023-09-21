@@ -170,22 +170,26 @@ namespace Tourament_library.DataAccess.Convert
                     {
                         MAtchups.Add(match);
                         
-                        foreach (MatchupModel matchup in matchups)
-                        {
-                            foreach (MatchupEntrieModel entry in matchup.Entries)
+                        
+                            foreach (MatchupEntrieModel entry in match.Entries)
                             {
+                                if (entry.teamCompreting!=null)
+                                {
+                                    entry.TeamCompetingID = entry.teamCompreting.id;
+                                }else entry.TeamCompetingID = 0;
+
                                 ENtries.Add(entry);
                             }
                            
                             
-                        }
+                        
                     }
                    
                 }
             }
-            MAtchups.saveMatchupList(matchupFile, matchupENtriesFIles, teamFile, peopleFile);
+            
             ENtries.saveEntriesList( matchupENtriesFIles, teamFile, peopleFile, matchupFile);
-
+            MAtchups.saveMatchupList(matchupFile, matchupENtriesFIles, teamFile, peopleFile);
             foreach (tourement_Model tr in touraments)
             {
                 
@@ -240,8 +244,8 @@ namespace Tourament_library.DataAccess.Convert
                 
                 if (tr.teamCompreting!=null)
                 {
-                    output+=$" {tr.teamCompreting.id},";
-                }else output+=$" ,";
+                    output+=$"{tr.teamCompreting.id},";
+                }else output+=$"0,";
                 if (tr.score != null)
                 {
                     output += $"{tr.score},";
@@ -250,7 +254,7 @@ namespace Tourament_library.DataAccess.Convert
                 if (tr.matchupParent != null)
                 {
                     output += $"{(tr.matchupParent.id)},";
-                }else output += $" ,"; 
+                }else output += $" ,";
 
                 lines.Add(output);
                 output = "";
@@ -399,14 +403,14 @@ namespace Tourament_library.DataAccess.Convert
                 string[] parts = line.Split(',');
                 MatchupEntrieModel p = new MatchupEntrieModel();
                 p.id = int.Parse(parts[0]);
-                if (parts[1]== " ")
+                if (parts[1]== "0")
                 {
                     p.teamCompreting = null;
                     p.TeamCompetingID = 0;
                 }
                 else {
                          p.teamCompreting = teams.Where(x => x.id == int.Parse(parts[1])).First();
-                    p.ParentMatchupID = int.Parse(parts[1]);
+                         p.TeamCompetingID = int.Parse(parts[1]);
 
                      }
 
@@ -499,7 +503,6 @@ namespace Tourament_library.DataAccess.Convert
         public static string convertTeamMatchupEntriesListToString(List<MatchupEntrieModel> teams)
         {
             string output = "";
-            int EntryID = getIDEnrtyList(teams);
             if (teams.Count == 0)
             {
                 return output;
@@ -507,13 +510,12 @@ namespace Tourament_library.DataAccess.Convert
             }
             foreach (var team in teams)
             {
-                team.id=EntryID;
+                
                 if (team.teamCompreting!=null)
                 {
                     team.TeamCompetingID = team.teamCompreting.id;
                 }else team.TeamCompetingID = 0;
 
-                EntryID++;
                 output += $"{team.id}^";
             }
             string str = output.Substring(0, output.Length - 1);
@@ -605,7 +607,6 @@ namespace Tourament_library.DataAccess.Convert
                     if (entry.ParentMatchupID!=0)
                     {
                         entry.matchupParent = matchups.Where(x => x.id == entry.ParentMatchupID).First();
-                        entry.teamCompreting=teams.Where(x => x.id == entry.TeamCompetingID).First();
 
                     }
                 }
@@ -645,11 +646,13 @@ namespace Tourament_library.DataAccess.Convert
                 foreach (var id in RdPart)
                 {
                     
+                    
                     string[] MatchupPart = id.Split('^');
                     foreach (var mt in MatchupPart)
                     {
                         if (mt != "")
                         {
+                            
                             mathups.Add(matchups.Where(x => x.id == int.Parse(mt)).First());
                             
                             

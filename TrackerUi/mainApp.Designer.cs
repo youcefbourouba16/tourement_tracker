@@ -203,6 +203,7 @@
             round_list.Name = "round_list";
             round_list.Size = new Size(220, 29);
             round_list.TabIndex = 23;
+            round_list.SelectedIndexChanged += round_list_SelectedIndexChanged;
             // 
             // label3
             // 
