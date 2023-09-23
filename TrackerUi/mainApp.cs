@@ -132,7 +132,7 @@ namespace TrackerUi
             }
             tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
             globalConfig.Connections.UpdateTourament(tour);
-            /// todo-- round 2 dont show matchups
+            /// todo-- deling with byes it's easy tho i have to make there score -1 
 
 
         }
