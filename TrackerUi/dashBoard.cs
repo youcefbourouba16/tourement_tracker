@@ -55,7 +55,7 @@ namespace TrackerUi
             tourement_Model tour = createMainApp();
             if (tour!=null)
             {
-                mainApp frm1 = new mainApp(this, tour); /// this means this exactly form that  we're in
+                mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
 
                 //this.Close();
                 frm1.Show();

@@ -62,6 +62,7 @@
             button1.TabIndex = 37;
             button1.Text = "ADD SCORE";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // monthCalendar1
             // 
@@ -112,13 +113,14 @@
             label9.Size = new Size(65, 29);
             label9.TabIndex = 32;
             label9.Text = "-VS-";
+            label9.Click += label9_Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Courier New", 13F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.MidnightBlue;
-            label4.Location = new Point(544, 222);
+            label4.Location = new Point(578, 222);
             label4.Name = "label4";
             label4.Size = new Size(87, 21);
             label4.TabIndex = 31;
@@ -178,21 +180,21 @@
             matchupListBox.ScrollAlwaysVisible = true;
             matchupListBox.Size = new Size(237, 189);
             matchupListBox.TabIndex = 25;
+            matchupListBox.SelectedIndexChanged += matchupListBox_SelectedIndexChanged;
             // 
             // playedOnly_checkBox
             // 
             playedOnly_checkBox.AutoSize = true;
-            playedOnly_checkBox.Checked = true;
-            playedOnly_checkBox.CheckState = CheckState.Checked;
             playedOnly_checkBox.FlatStyle = FlatStyle.Flat;
             playedOnly_checkBox.Font = new Font("Cascadia Mono SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point);
             playedOnly_checkBox.ForeColor = Color.Black;
             playedOnly_checkBox.Location = new Point(99, 158);
             playedOnly_checkBox.Name = "playedOnly_checkBox";
-            playedOnly_checkBox.Size = new Size(125, 25);
+            playedOnly_checkBox.Size = new Size(143, 25);
             playedOnly_checkBox.TabIndex = 24;
-            playedOnly_checkBox.Text = "Played ONLY";
+            playedOnly_checkBox.Text = "UnPlayed ONLY";
             playedOnly_checkBox.UseVisualStyleBackColor = true;
+            playedOnly_checkBox.CheckedChanged += playedOnly_checkBox_CheckedChanged;
             // 
             // round_list
             // 

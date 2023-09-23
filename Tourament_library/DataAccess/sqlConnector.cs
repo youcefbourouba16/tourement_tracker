@@ -302,9 +302,43 @@ namespace Tourament_library.DataAccess
             }
             return output;
         }
-        
 
+        public void UpdateTourament(tourement_Model tr)
+        {
+           
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+               
+                
+                foreach (List<MatchupModel> matchuos in tr.round)
+                {
+                    foreach (MatchupModel matchup in matchuos)
+                    {
+                        
+                        var p = new DynamicParameters();
+                        p.Add("@winnder", matchup.winnerID);
+                        p.Add("@id", matchup.id);
+                        connection.Execute("sp_MatchUpsUpdate", p, commandType: CommandType.StoredProcedure);
+                        foreach (MatchupEntrieModel entry in matchup.Entries)
+                        {
+                            if (entry != null)
+                            {
+                                var e = new DynamicParameters();
+                                e.Add("@score", entry.score);
+                                e.Add("@teamCompetingID", entry.TeamCompetingID);
+                                e.Add("@id", entry.id);
+                                connection.Execute("sp_MatchUpsEntriesUpdate", e, commandType: CommandType.StoredProcedure);
+                            }
 
-
+                        }
+                        
+                        
+                        
+                    }
+                }
+                    
+                
+            }
+        }
     }
 }

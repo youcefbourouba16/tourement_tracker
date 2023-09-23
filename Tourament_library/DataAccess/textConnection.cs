@@ -140,6 +140,11 @@ namespace Tourament_library.DataAccess
         {
             return touramentFile.getFullpath().loadFile().convertToTouramentModelList(teamFile, peopleFile, PrizeFile, Matchupfile, MatchupEntriesFile);
         }
+
+        public void UpdateTourament(tourement_Model tr)
+        {
+            throw new NotImplementedException();
+        }
         //public void createMatchup(MatchupModel Matchup)
         //{
         //    List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().

@@ -20,6 +20,8 @@ namespace Tourament_library.DataAccess
         List<teamModel> getTeamAll();
 
         List<tourement_Model> getTourAll();
+        void UpdateTourament(tourement_Model tr);
+        
 
 
 

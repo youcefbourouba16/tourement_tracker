@@ -17,6 +17,40 @@ namespace Tourament_library.Models
         public int winnerID { get; set; }
         public int MatchupRound { get; set; }
 
+        public string fullNamesEntries
+        {
+            get
+            {
+                string s = "";
+
+                int count = 0;
+                foreach (MatchupEntrieModel entry in Entries)
+                {
+                    count++;
+                    if (MatchupRound == 1 && entry.teamCompreting == null)
+                    {
+                        s += " bye(neutral)";
+                        break;
+                    }
+                    else if (MatchupRound > 1 && entry.teamCompreting == null)
+                    {
+                        s += " not yet define ";
+                        break;
+                    }
+                    if (count == 1)
+                    {
+                        s += $"{entry.teamCompreting.teamName} Vs ";
+                    }
+                    else s += $"{entry.teamCompreting.teamName}";
+                }
+                return s;
+
+            }
+
+
+
+        }
+
 
     }
 }

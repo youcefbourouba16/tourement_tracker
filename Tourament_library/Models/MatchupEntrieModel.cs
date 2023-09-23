@@ -33,7 +33,8 @@ namespace Tourament_library.Models
             this.score = score;
             this.matchupParent = matchupParent;
         }
-        public MatchupEntrieModel() { } 
+        public MatchupEntrieModel() { }
+        
     }
 }
 

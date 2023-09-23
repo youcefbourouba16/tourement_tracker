@@ -176,10 +176,19 @@ namespace TrackerUi
              globalConfig.Connections.createTourament(tr);
             callingForm.tourComplete(tr);
             this.Close();
+            if (tr != null)
+            {
+                mainApp frm1 = new mainApp(tr); /// this means this exactly form that  we're in
+
+                //this.Close();
+                frm1.Show();
+            }
 
 
 
         }
+
+        
 
         private void entryFee_val_KeyPress(object sender, KeyPressEventArgs e)
         {
