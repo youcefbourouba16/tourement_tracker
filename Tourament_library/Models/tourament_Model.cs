@@ -13,6 +13,7 @@ namespace Tourament_library.Models
         public double EntryFee;
         public List<teamModel> EnteredTeams = new List<teamModel>();
         public List<PrizeModel> Prizes = new List<PrizeModel>();
+        public int Active = 1;
         public List<List<MatchupModel>> round { get; set; } = new List<List<MatchupModel>>();
 
         public tourement_Model(string touramentName, 

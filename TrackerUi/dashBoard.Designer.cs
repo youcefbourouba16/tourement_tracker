@@ -108,6 +108,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoValidate = AutoValidate.EnablePreventFocusChange;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(668, 452);
             Controls.Add(creatTourament);
@@ -116,8 +117,10 @@
             Controls.Add(touramentList);
             Controls.Add(label1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            ImeMode = ImeMode.Off;
             MaximizeBox = false;
             Name = "dashBoard";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "dashBoard";
             Load += dashBoard_Load;
             ResumeLayout(false);

@@ -51,35 +51,36 @@ namespace TrackerUi
 
         private void loadTorament_Click(object sender, EventArgs e)
         {
-            
+
             tourement_Model tour = createMainApp();
-            if (tour!=null)
+            if (tour != null)
             {
                 mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
 
                 //this.Close();
                 frm1.Show();
             }
-           
-            
+
+
         }
 
         public tourement_Model createMainApp()
         {
-            tourement_Model output=new tourement_Model();
+            tourement_Model output = new tourement_Model();
             if (touramentList.SelectedItem != null)
             {
                 return (tourement_Model)touramentList.SelectedItem;
             }
-            else {
+            else
+            {
                 MessageBox.Show("Please select OR Create a Tourament First", "invalide Tourament",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return null;
             }
-            
 
-            
+
+
         }
     }
 }

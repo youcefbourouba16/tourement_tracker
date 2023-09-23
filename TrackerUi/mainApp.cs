@@ -25,7 +25,8 @@ namespace TrackerUi
         {
 
             InitializeComponent();
-            tour = tr;
+            tour = tourLogic.winnerToNextMatcup(tr, 1); /// set next round eleminate byes if there's any 1 ===> round 1 (byes exist only round 1)
+            globalConfig.Connections.UpdateTourament(tour);
             loadTour();
             roundGetList();
             wireUpRoundList();
@@ -59,6 +60,10 @@ namespace TrackerUi
             if (m != null)
             {
                 score_teamONE.Text = m.Entries[0].score.ToString();
+                if (m.Entries.Count!=2)
+                {
+                    label4.Text = "Not yet SET";
+                }else
                 score_teamTWO.Text = m.Entries[1].score.ToString();
 
             }
@@ -81,8 +86,9 @@ namespace TrackerUi
         {
 
             AddscoreUpdate();
+            wireUpMatchupListBox(round_list.SelectedIndex);
         }
-        
+
         public void AddscoreUpdate()
         {
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
@@ -111,31 +117,36 @@ namespace TrackerUi
                 m.Winner = m.Entries[1].teamCompreting;
                 m.winnerID = m.Entries[1].TeamCompetingID;
             }
-            int idexMatchup = -1;
-            foreach (List<MatchupModel> matchups in tour.round)
-            {
-                foreach (MatchupModel matchup in matchups)
-                {
-                    if (matchup.id == m.id)
-                    {
+            //int idexMatchup = -1;
+            //foreach (List<MatchupModel> matchups in tour.round)
+            //{
+            //    foreach (MatchupModel matchup in matchups)
+            //    {
+            //        if (matchup.id == m.id)
+            //        {
 
-                        idexMatchup = matchups.IndexOf(matchup);
-                        matchups[idexMatchup] = m;
-                        break;
-                    }
+            //            idexMatchup = matchups.IndexOf(matchup);
+            //            matchups[idexMatchup] = m;
+            //            break;
+            //        }
 
-                }
-                if (idexMatchup != -1)
-                {
-                    break;
-                }
-            }
+            //    }
+            //    if (idexMatchup != -1)
+            //    {
+            //        break;
+            //    }
+            //}
             tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
             globalConfig.Connections.UpdateTourament(tour);
             /// todo-- deling with byes it's easy tho i have to make there score -1 
+            if (tour.Active==0)
+            {
+                globalConfig.Connections.touramentComplete(tour);
+            }
 
 
         }
+        
         public void uploadCometingTeamName()
         {
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
@@ -149,14 +160,8 @@ namespace TrackerUi
                         {
                             label2.Text = m.Entries[0].teamCompreting.teamName;
                             score_teamONE.Text = m.Entries[0].score.ToString();
-
-                            label4.Text = "<bye>";
-                            score_teamTWO.Text = "0";
-                        }
-                        else
-                        {
-                            label2.Text = "Not Yet Set";
-                            score_teamTWO.Text = "";
+                            
+                            
                         }
                     }
 
@@ -167,9 +172,14 @@ namespace TrackerUi
                             label4.Text = m.Entries[1].teamCompreting.teamName;
                             score_teamTWO.Text = m.Entries[1].score.ToString();
                         }
-                        else
+                        else if (m.Entries.Count==1)
                         {
                             label4.Text = "Not Yet Set";
+                            score_teamTWO.Text = "";
+                        }
+                        else 
+                        {
+                            label4.Text = "<Bye>";
                             score_teamTWO.Text = "";
                         }
                     }
@@ -179,8 +189,9 @@ namespace TrackerUi
         public void removeTextboxAndButtonInNullMatchups()
         {
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
-            if (m!=null && m.Entries[1].teamCompreting==null)
+            if (m != null && (m.Entries.Count ==1 || m.Entries[1].teamCompreting==null))
             {
+
                 score_teamTWO.Enabled = false;
                 score_teamONE.Enabled = false;
                 button1.Enabled = false;

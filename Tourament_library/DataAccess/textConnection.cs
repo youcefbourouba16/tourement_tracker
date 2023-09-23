@@ -145,6 +145,11 @@ namespace Tourament_library.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public void touramentComplete(tourement_Model tr)
+        {
+            throw new NotImplementedException();
+        }
         //public void createMatchup(MatchupModel Matchup)
         //{
         //    List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().

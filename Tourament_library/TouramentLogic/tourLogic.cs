@@ -69,7 +69,9 @@ namespace Tourament_library.TouramentLogic
                 if (byess >= 1)
                 {
                     curr.Entries.Add(new MatchupEntrieModel { teamCompreting = team, TeamCompetingID = team.id });
-                    curr.Entries.Add(new MatchupEntrieModel { teamCompreting = null, TeamCompetingID = 0 });
+                    curr.Winner = team;
+                    curr.winnerID = team.id;
+                    curr.Entries.Add(new MatchupEntrieModel { teamCompreting = null, TeamCompetingID = 0 ,score=-1});
                     curr.MatchupRound = 1;
                     output.Add(curr);
                     curr = new MatchupModel();
@@ -108,7 +110,7 @@ namespace Tourament_library.TouramentLogic
             int count = teams.Count;
             int round = 0;
             int byes = 0;
-            //// note that the count number should be grater than 1 (count >1)
+            //// note that the count number should be grater than 1 (count >1) and couple number(zawdji)
             do
             {
                 if (count % 2 == 0)
@@ -137,78 +139,86 @@ namespace Tourament_library.TouramentLogic
         }
         public static tourement_Model winnerToNextMatcup(tourement_Model tr,int round)
         {
-            List<MatchupEntrieModel> winningTeams = new List<MatchupEntrieModel>();
-            MatchupEntrieModel tempEntry = new MatchupEntrieModel();
-            List<MatchupModel> tempNewMatchups = new List<MatchupModel>();
-            MatchupModel tempNewMatchup = new MatchupModel();
-            ///add new entries list
-            int count=1;
-            foreach (MatchupModel matchup in tr.round[round-1])
+            if (round == tr.round.Count)
             {
-                if (matchup.Winner != null)
+                return tr;
+            }
+            else
+            {
+                List<MatchupEntrieModel> winningTeams = new List<MatchupEntrieModel>();
+                MatchupEntrieModel tempEntry = new MatchupEntrieModel();
+                List<MatchupModel> tempNewMatchups = new List<MatchupModel>();
+                MatchupModel tempNewMatchup = new MatchupModel();
+                ///add new entries list
+                int count = 1;
+                foreach (MatchupModel matchup in tr.round[round - 1])
                 {
-
-                    if (count==1 || count%2==0)
+                    if (matchup.Winner != null)
                     {
-                        foreach (MatchupEntrieModel item in matchup.Entries)
+
+                        if (count == 1 || count % 2 == 0)
                         {
-                            if (item.teamCompreting == matchup.Winner)
+                            foreach (MatchupEntrieModel item in matchup.Entries)
                             {
-                                
-                                tempEntry.teamCompreting = item.teamCompreting;
-                                tempEntry.score = 0;
-                                tempEntry.matchupParent = matchup;
-                                tempEntry.ParentMatchupID = matchup.id;
-                                tempEntry.TeamCompetingID = item.TeamCompetingID;
-                                //int index = matchup.Entries.IndexOf(item);
-                                //tempEntry = matchup.Entries[index];
-                                //tempEntry.score = 0;
-                                //tempEntry.matchupParent = matchup;
-                                //tempEntry.ParentMatchupID = matchup.id;
+                                if (item.teamCompreting == matchup.Winner)
+                                {
 
+                                    tempEntry.teamCompreting = item.teamCompreting;
+                                    tempEntry.score = 0;
+                                    tempEntry.matchupParent = matchup;
+                                    tempEntry.ParentMatchupID = matchup.id;
+                                    tempEntry.TeamCompetingID = item.TeamCompetingID;
+                                    //int index = matchup.Entries.IndexOf(item);
+                                    //tempEntry = matchup.Entries[index];
+                                    //tempEntry.score = 0;
+                                    //tempEntry.matchupParent = matchup;
+                                    //tempEntry.ParentMatchupID = matchup.id;
+
+                                }
                             }
+                            winningTeams.Add(tempEntry);
+                            tempEntry = new MatchupEntrieModel();
                         }
-                        winningTeams.Add(tempEntry);
-                        tempEntry = new MatchupEntrieModel();
-                    }
-                    
-                }
-                if (count % 2 == 0)
-                {
-                    tempNewMatchup.MatchupRound = round+1;
-                    tempNewMatchup.Entries = winningTeams;
-                    winningTeams = new List<MatchupEntrieModel>();
-                    tempNewMatchups.Add(tempNewMatchup);
-                    tempNewMatchup = new MatchupModel();
-                    count=1;
-                }
-                else count++;
-                
 
+                    }
+                    if (count % 2 == 0)
+                    {
+                        tempNewMatchup.MatchupRound = round + 1;
+                        tempNewMatchup.Entries = winningTeams;
+                        winningTeams = new List<MatchupEntrieModel>();
+                        tempNewMatchups.Add(tempNewMatchup);
+                        tempNewMatchup = new MatchupModel();
+                        count = 1;
+                    }
+                    else count++;
+
+
+                }
+                foreach (MatchupModel match in tr.round[round])
+                {
+                    for (int i = 0; i < tempNewMatchups.Count; i++)
+                    {
+                        tempNewMatchups[i].id = match.id;
+                        for (int j = 0; j < match.Entries.Count; j++)
+                        {
+                            if (tempNewMatchups[i].Entries.Count == 2)
+                            {
+                                tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
+                            }
+                            else break;
+
+
+                        }
+                        break;
+                    }
+
+                }
+                tr.round[round] = tempNewMatchups;
+
+                return tr;
             }
             /// to get the original id for the matchup and put it  in the previeus one to keep  track of original tourament
-            foreach (MatchupModel match in tr.round[round])
-            {
-                for (int i = 0; i < tempNewMatchups.Count; i++)
-                {
-                    tempNewMatchups[i].id = match.id;
-                    for (int j = 0; j < match.Entries.Count; j++)
-                    {
-                        if (tempNewMatchups[i].Entries.Count == 2)
-                        {
-                            tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
-                        }
-                        else break;
-                        
-                        
-                    }
-                    break;
-                }
-                
-            }
-            tr.round[round] = tempNewMatchups;
             
-            return tr;
         }
 
     }

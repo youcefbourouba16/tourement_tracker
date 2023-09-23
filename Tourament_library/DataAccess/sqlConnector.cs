@@ -340,5 +340,16 @@ namespace Tourament_library.DataAccess
                 
             }
         }
+
+        public void touramentComplete(tourement_Model tr)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@id", tr.id);
+                connection.Execute("sp_touramentComplete", p, commandType: CommandType.StoredProcedure);
+                        
+            }
+        }
     }
 }
