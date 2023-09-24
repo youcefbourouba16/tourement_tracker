@@ -59,12 +59,20 @@ namespace TrackerUi
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
             if (m != null)
             {
-                score_teamONE.Text = m.Entries[0].score.ToString();
+                
                 if (m.Entries.Count!=2)
                 {
-                    label4.Text = "Not yet SET";
-                }else
-                score_teamTWO.Text = m.Entries[1].score.ToString();
+                    label4.Text = "Not Yet Set";
+                    label2.Text = "Not Yet Set";
+                    score_teamTWO.Text = "";
+                    score_teamONE.Text = "";
+                }
+                else
+                {
+                    score_teamTWO.Text = m.Entries[1].score.ToString();
+                    score_teamONE.Text = m.Entries[0].score.ToString();
+                }
+                
 
             }
             uploadCometingTeamName();
@@ -189,7 +197,7 @@ namespace TrackerUi
         public void removeTextboxAndButtonInNullMatchups()
         {
             MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
-            if (m != null && (m.Entries.Count ==1 || m.Entries[1].teamCompreting==null))
+            if (m != null && (m.Entries.Count <2 || m.Entries[1].teamCompreting==null))
             {
 
                 score_teamTWO.Enabled = false;

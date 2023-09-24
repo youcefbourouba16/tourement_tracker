@@ -16,7 +16,6 @@ namespace Tourament_library.Models
         public teamModel Winner { get; set; }
         public int winnerID { get; set; }
         public int MatchupRound { get; set; }
-
         public string fullNamesEntries
         {
             get
