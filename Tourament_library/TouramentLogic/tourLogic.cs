@@ -141,6 +141,7 @@ namespace Tourament_library.TouramentLogic
         {
             if (round == tr.round.Count)
             {
+                tr.Active = 2;
                 return tr;
             }
             else

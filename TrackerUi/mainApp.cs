@@ -145,6 +145,12 @@ namespace TrackerUi
             //    }
             //}
             tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
+            
+            if (tour.Active==2)
+            {
+                tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
+                frm.Show();
+            }
             globalConfig.Connections.UpdateTourament(tour);
             /// todo-- deling with byes it's easy tho i have to make there score -1 
             if (tour.Active==0)
