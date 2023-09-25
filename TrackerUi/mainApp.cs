@@ -125,25 +125,25 @@ namespace TrackerUi
                 m.Winner = m.Entries[1].teamCompreting;
                 m.winnerID = m.Entries[1].TeamCompetingID;
             }
-            //int idexMatchup = -1;
-            //foreach (List<MatchupModel> matchups in tour.round)
-            //{
-            //    foreach (MatchupModel matchup in matchups)
-            //    {
-            //        if (matchup.id == m.id)
-            //        {
+            int idexMatchup = -1;
+            foreach (List<MatchupModel> matchups in tour.round)
+            {
+                foreach (MatchupModel matchup in matchups)
+                {
+                    if (matchup.id == m.id)
+                    {
 
-            //            idexMatchup = matchups.IndexOf(matchup);
-            //            matchups[idexMatchup] = m;
-            //            break;
-            //        }
+                        idexMatchup = matchups.IndexOf(matchup);
+                        matchups[idexMatchup] = m;
+                        break;
+                    }
 
-            //    }
-            //    if (idexMatchup != -1)
-            //    {
-            //        break;
-            //    }
-            //}
+                }
+                if (idexMatchup != -1)
+                {
+                    break;
+                }
+            }
             tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
             
             if (tour.Active==2)

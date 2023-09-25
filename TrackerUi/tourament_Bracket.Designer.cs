@@ -43,7 +43,7 @@
             // 
             tourName.AutoSize = true;
             tourName.Font = new Font("Segoe UI Historic", 20.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-            tourName.Location = new Point(419, 9);
+            tourName.Location = new Point(417, 9);
             tourName.Name = "tourName";
             tourName.Size = new Size(96, 37);
             tourName.TabIndex = 0;
@@ -53,7 +53,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(165, 74);
+            label1.Location = new Point(163, 74);
             label1.Name = "label1";
             label1.Size = new Size(92, 21);
             label1.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(399, 74);
+            label2.Location = new Point(397, 74);
             label2.Name = "label2";
             label2.Size = new Size(116, 21);
             label2.TabIndex = 2;
@@ -73,7 +73,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label3.Location = new Point(672, 79);
+            label3.Location = new Point(670, 79);
             label3.Name = "label3";
             label3.Size = new Size(96, 21);
             label3.TabIndex = 3;
@@ -82,7 +82,7 @@
             // firstPName
             // 
             firstPName.AutoSize = true;
-            firstPName.Location = new Point(263, 79);
+            firstPName.Location = new Point(261, 79);
             firstPName.Name = "firstPName";
             firstPName.Size = new Size(38, 15);
             firstPName.TabIndex = 4;
@@ -91,7 +91,7 @@
             // secondPName
             // 
             secondPName.AutoSize = true;
-            secondPName.Location = new Point(521, 78);
+            secondPName.Location = new Point(519, 78);
             secondPName.Name = "secondPName";
             secondPName.Size = new Size(38, 15);
             secondPName.TabIndex = 5;
@@ -100,7 +100,7 @@
             // thirdPName
             // 
             thirdPName.AutoSize = true;
-            thirdPName.Location = new Point(765, 84);
+            thirdPName.Location = new Point(763, 84);
             thirdPName.Name = "thirdPName";
             thirdPName.Size = new Size(38, 15);
             thirdPName.TabIndex = 6;
@@ -108,9 +108,9 @@
             // 
             // panel1
             // 
-            panel1.Location = new Point(12, 125);
+            panel1.Location = new Point(12, 103);
             panel1.Name = "panel1";
-            panel1.Size = new Size(914, 386);
+            panel1.Size = new Size(943, 595);
             panel1.TabIndex = 7;
             // 
             // tourament_Bracket
@@ -118,7 +118,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.InactiveCaption;
-            ClientSize = new Size(938, 523);
+            ClientSize = new Size(956, 481);
             Controls.Add(panel1);
             Controls.Add(thirdPName);
             Controls.Add(secondPName);
