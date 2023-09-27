@@ -169,12 +169,7 @@ namespace Tourament_library.TouramentLogic
                                     tempEntry.matchupParent = matchup;
                                     tempEntry.ParentMatchupID = matchup.id;
                                     tempEntry.TeamCompetingID = item.TeamCompetingID;
-                                    //int index = matchup.Entries.IndexOf(item);
-                                    //tempEntry = matchup.Entries[index];
-                                    //tempEntry.score = 0;
-                                    //tempEntry.matchupParent = matchup;
-                                    //tempEntry.ParentMatchupID = matchup.id;
-
+                                    break;
                                 }
                             }
                             winningTeams.Add(tempEntry);
@@ -195,23 +190,29 @@ namespace Tourament_library.TouramentLogic
 
 
                 }
+                int i = 0;
                 foreach (MatchupModel match in tr.round[round])
                 {
-                    for (int i = 0; i < tempNewMatchups.Count; i++)
+                    if (match.Entries[0].teamCompreting==null || match.Entries[0].teamCompreting == null)
                     {
-                        tempNewMatchups[i].id = match.id;
-                        for (int j = 0; j < match.Entries.Count; j++)
-                        {
-                            if (tempNewMatchups[i].Entries.Count == 2)
+                        //for (int i = 0; i < tempNewMatchups.Count; i++)
+                        //{
+                            tempNewMatchups[i].id = match.id;
+                            for (int j = 0; j < match.Entries.Count; j++)
                             {
-                                tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
+                                if (tempNewMatchups[i].Entries.Count == 2)
+                                {
+                                    tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
+                                }
+                                else break;
+
+
                             }
-                            else break;
-
-
-                        }
-                        break;
+                        i++;
+                            //break;
+                        //}
                     }
+                    
 
                 }
                 tr.round[round] = tempNewMatchups;

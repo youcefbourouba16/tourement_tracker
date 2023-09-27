@@ -25,8 +25,9 @@ namespace TrackerUi
         {
 
             InitializeComponent();
-            tour = tourLogic.winnerToNextMatcup(tr, 1); /// set next round eleminate byes if there's any 1 ===> round 1 (byes exist only round 1)
-            globalConfig.Connections.UpdateTourament(tour);
+            //tour = tourLogic.winnerToNextMatcup(tr, 1); /// set next round eleminate byes if there's any 1 ===> round 1 (byes exist only round 1)
+            //globalConfig.Connections.UpdateTourament(tour);
+            tour = tr;
             loadTour();
             roundGetList();
             wireUpRoundList();
@@ -92,8 +93,9 @@ namespace TrackerUi
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
             AddscoreUpdate();
+            setUpnextround();
             wireUpMatchupListBox(round_list.SelectedIndex);
         }
 
@@ -126,39 +128,41 @@ namespace TrackerUi
                 m.winnerID = m.Entries[1].TeamCompetingID;
             }
             int idexMatchup = -1;
-            foreach (List<MatchupModel> matchups in tour.round)
-            {
-                foreach (MatchupModel matchup in matchups)
+            
+                foreach (MatchupModel matchup in tour.round[m.MatchupRound-1])
                 {
                     if (matchup.id == m.id)
                     {
 
-                        idexMatchup = matchups.IndexOf(matchup);
-                        matchups[idexMatchup] = m;
+                        idexMatchup = tour.round[m.MatchupRound-1].IndexOf(matchup);
+                        
                         break;
                     }
 
                 }
-                if (idexMatchup != -1)
-                {
-                    break;
-                }
-            }
-            tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
+                
             
-            if (tour.Active==2)
+            tour.round[m.MatchupRound-1][idexMatchup] = m;
+            
+
+
+        }
+        public void setUpnextround()
+        {
+            MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
+            tour = tourLogic.winnerToNextMatcup(tour, m.MatchupRound);
+
+            if (tour.Active == 2)
             {
                 tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
                 frm.Show();
             }
             globalConfig.Connections.UpdateTourament(tour);
             /// todo-- deling with byes it's easy tho i have to make there score -1 
-            if (tour.Active==0)
+            if (tour.Active == 0)
             {
                 globalConfig.Connections.touramentComplete(tour);
             }
-
-
         }
         
         public void uploadCometingTeamName()
