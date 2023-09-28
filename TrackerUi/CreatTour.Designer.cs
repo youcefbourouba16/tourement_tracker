@@ -55,7 +55,7 @@
             btn_addTourament.Cursor = Cursors.Hand;
             btn_addTourament.FlatAppearance.BorderSize = 0;
             btn_addTourament.FlatStyle = FlatStyle.Flat;
-            btn_addTourament.Font = new Font("Unispace", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_addTourament.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
             btn_addTourament.Location = new Point(441, 397);
             btn_addTourament.Name = "btn_addTourament";
             btn_addTourament.Size = new Size(455, 61);
@@ -95,7 +95,7 @@
             deleteSelectedPrize.Cursor = Cursors.Hand;
             deleteSelectedPrize.FlatAppearance.BorderSize = 0;
             deleteSelectedPrize.FlatStyle = FlatStyle.Flat;
-            deleteSelectedPrize.Font = new Font("Unispace", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            deleteSelectedPrize.Font = new Font("Microsoft Sans Serif", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
             deleteSelectedPrize.Location = new Point(822, 152);
             deleteSelectedPrize.Name = "deleteSelectedPrize";
             deleteSelectedPrize.Size = new Size(80, 63);
@@ -125,7 +125,7 @@
             deleteSelectedTeam.Cursor = Cursors.Hand;
             deleteSelectedTeam.FlatAppearance.BorderSize = 0;
             deleteSelectedTeam.FlatStyle = FlatStyle.Flat;
-            deleteSelectedTeam.Font = new Font("Unispace", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            deleteSelectedTeam.Font = new Font("Microsoft Sans Serif", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
             deleteSelectedTeam.Location = new Point(310, 374);
             deleteSelectedTeam.Name = "deleteSelectedTeam";
             deleteSelectedTeam.Size = new Size(80, 63);
@@ -154,7 +154,7 @@
             btn_addPrize.Cursor = Cursors.Hand;
             btn_addPrize.FlatAppearance.BorderSize = 0;
             btn_addPrize.FlatStyle = FlatStyle.Flat;
-            btn_addPrize.Font = new Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_addPrize.Font = new Font("Microsoft Sans Serif", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
             btn_addPrize.ForeColor = Color.White;
             btn_addPrize.Location = new Point(255, 218);
             btn_addPrize.Name = "btn_addPrize";
@@ -171,7 +171,7 @@
             btn_addTeam.Cursor = Cursors.Hand;
             btn_addTeam.FlatAppearance.BorderSize = 0;
             btn_addTeam.FlatStyle = FlatStyle.Flat;
-            btn_addTeam.Font = new Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            btn_addTeam.Font = new Font("Microsoft Sans Serif", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
             btn_addTeam.Location = new Point(39, 218);
             btn_addTeam.Name = "btn_addTeam";
             btn_addTeam.Size = new Size(183, 46);

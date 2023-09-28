@@ -16,7 +16,7 @@ namespace TrackerUi
 
         public void Bracket_Round1(int FirstRoundMatchupNumber)
         {
-            int x_axe = 250;
+            int x_axe = 50;
             int y_axe = 50;
 
             string entriy1 = "lb1_";
@@ -32,7 +32,7 @@ namespace TrackerUi
                     lb = new Label();
                     lb.Text = "lb1_" + j.ToString();
                     lb.Font = new Font("Arial", 9, FontStyle.Bold);
-                    lb.ForeColor = Color.Blue;
+                    lb.ForeColor = Color.GreenYellow;
                     lb.Name = entriy1.ToString();
                     lb.Location = new Point(x_axe, y_axe);
 
@@ -127,7 +127,7 @@ namespace TrackerUi
         {
             InitializeComponent();
 
-            label1.Text = tour.TouramentName;
+            tourName.Text = tour.TouramentName;
             int FirstRoundMatchupNumber = 0;
             foreach (MatchupModel matchup in tour.round[0])
             {
@@ -139,12 +139,36 @@ namespace TrackerUi
             }
             if (FirstRoundMatchupNumber >= 8)
             {
-                this.Size = new Size(1280, 800);
+                this.Size = new Size(950, 600);
+                EditTour.Location = new Point(240, 400);
+                DeleteTour.Location = new Point(550, 400);
+                panel1.Size = new Size(1200, 700);
             }
 
 
             Bracket_Round1(FirstRoundMatchupNumber);
             addEntriesNames(panel1, tour);
+            int count;
+            count = panel1.Controls.Count;
+            panel1.Controls[count - 1].Text = "Winner :" + tour.round[tour.round.Count - 1][0].Winner.teamName;
+            panel1.Controls[count - 1].ForeColor = Color.Goldenrod;
+            panel1.Controls[count - 1].Size = new Size(300, 18);
+            foreach (MatchupEntrieModel item in tour.round[tour.round.Count - 1][0].Entries)
+            {
+                if (item.id != tour.round[tour.round.Count - 1][0].winnerID)
+                {
+                    secondPName.Text = item.teamCompreting.teamName;
+
+                }
+                if (item.id != tour.round[tour.round.Count - 1][0].winnerID)
+                {
+                    firstPName.Text = item.teamCompreting.teamName;
+                }
+            }
+
+
+
+
         }
     }
 }

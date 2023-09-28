@@ -100,13 +100,13 @@ namespace TrackerUi
                 wireUpAvailableTeamsList();
             }
         }
-        public int i=1;
+        public int i = 1;
 
         private void btn_addPrize_Click(object sender, EventArgs e)
         {
             //call the creatprize form
-             
-            creatPrize frm = new creatPrize(this,i); /// this means this exactly form that  we're in
+
+            creatPrize frm = new creatPrize(this, i); /// this means this exactly form that  we're in
             frm.Show();
             i++;// this to increament the pace number automaticly
             //gt back prizeModel form the creatPrize form
@@ -137,17 +137,17 @@ namespace TrackerUi
         private void btn_addTourament_Click(object sender, EventArgs e)
         {
             List<tourement_Model> tourAll = globalConfig.Connections.getTourAll();
-            
+
             int count = 0;
             foreach (tourement_Model item in tourAll)
             {
                 if (touramentName.Text == item.TouramentName)
                 {
-                   
+
                     count++;
                 }
             }
-            if (count<2)
+            if (count < 2)
             {
                 decimal fee = 0;
                 bool feeValidation = decimal.TryParse(entryFee_val.Text, out fee);
@@ -206,7 +206,8 @@ namespace TrackerUi
                     //this.Close();
                     frm1.Show();
                 }
-            }else  MessageBox.Show("Tourament already exist !! try new name", "cannot create tourament",
+            }
+            else MessageBox.Show("Tourament already exist !! try new name", "cannot create tourament",
                MessageBoxButtons.OK,
                MessageBoxIcon.Error);
 
@@ -218,7 +219,7 @@ namespace TrackerUi
 
         private void entryFee_val_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
         }
     }
 }
