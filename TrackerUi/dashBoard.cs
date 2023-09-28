@@ -55,10 +55,22 @@ namespace TrackerUi
             tourement_Model tour = createMainApp();
             if (tour != null)
             {
-                mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
+                
+                if (tour.Active == 2)
+                {
+                    tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
+                    frm.Show();
+                }
+                else
+                {
+                    mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
 
-                //this.Close();
-                frm1.Show();
+                    //this.Close();
+                    frm1.Show();
+
+                }
+                
+                
             }
 
 

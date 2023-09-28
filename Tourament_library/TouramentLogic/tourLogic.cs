@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tourament_library.Models;
 
@@ -144,7 +145,7 @@ namespace Tourament_library.TouramentLogic
                 tr.Active = 2;
                 return tr;
             }
-            else
+            else 
             {
                 List<MatchupEntrieModel> winningTeams = new List<MatchupEntrieModel>();
                 MatchupEntrieModel tempEntry = new MatchupEntrieModel();
@@ -191,31 +192,60 @@ namespace Tourament_library.TouramentLogic
 
                 }
                 int i = 0;
+                int j = 0;
                 foreach (MatchupModel match in tr.round[round])
                 {
-                    if (match.Entries[0].teamCompreting==null || match.Entries[0].teamCompreting == null)
+                    if (match.Winner==null)
                     {
-                        //for (int i = 0; i < tempNewMatchups.Count; i++)
-                        //{
-                            tempNewMatchups[i].id = match.id;
-                            for (int j = 0; j < match.Entries.Count; j++)
-                            {
-                                if (tempNewMatchups[i].Entries.Count == 2)
-                                {
-                                    tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
-                                }
-                                else break;
-
-
-                            }
-                        i++;
-                            //break;
-                        //}
+                        tempNewMatchups[i].id = match.id;
+                        
                     }
-                    
+                    i++;
+                    //if (match.Entries.Count > 0)
+                    //{
+                    //    if (match.Entries[0].teamCompreting != null)
+                    //    {
+                    //        if (match.Entries.Count == 2 && match.Entries[1].teamCompreting == null)
+                    //        {
+                    //            tempNewMatchups[i].id = match.id;
+                    //            for (int j = 0; j < match.Entries.Count; j++)
+                    //            {
+                    //                if (tempNewMatchups[i].Entries.Count == 2)
+                    //                {
+                    //                    tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
+                    //                }
+                    //                else break;
+
+
+                    //            }
+                    //            i++;
+                    //        }
+                    //    }
+                    //    i = 0;
+                    //}
+
+
 
                 }
-                tr.round[round] = tempNewMatchups;
+                i = 0;
+                j = 0;
+                // todo--team name warning about ==> "" 
+                foreach (MatchupModel match in tempNewMatchups)
+                {
+                    if (match.id == tr.round[round][i].id)
+                    {
+                        foreach (MatchupEntrieModel item in match.Entries)
+                        {
+                            tr.round[round][i].Entries[j].teamCompreting=item.teamCompreting;
+                            tr.round[round][i].Entries[j].TeamCompetingID = item.TeamCompetingID;
+                            tr.round[round][i].Entries[j].matchupParent = item.matchupParent;
+                            j++;
+                        }
+                        
+                    }
+                    i++;
+                    j = 0;
+                }
 
                 return tr;
             }

@@ -239,6 +239,7 @@ namespace Tourament_library.DataAccess
                         e.Add("@teamID", team.id);
                         team.team_member = connection.Query<person>("sp_teamMember_getByTeam", e
                         , commandType: CommandType.StoredProcedure).ToList();
+                        
 
                     }
                     tour.Prizes = connection.Query<PrizeModel>("spPrizes_getByTouramentID", p
@@ -262,6 +263,7 @@ namespace Tourament_library.DataAccess
                         
                         foreach (MatchupEntrieModel me in mathup.Entries)
                         {
+                            
                             if (me.TeamCompetingID >0)
                             {
                                 me.teamCompreting=teams.Where(x => x.id == me.TeamCompetingID).First();
@@ -341,12 +343,13 @@ namespace Tourament_library.DataAccess
             }
         }
 
-        public void touramentComplete(tourement_Model tr)
+        public void touramentComplete(tourement_Model tr, int x)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(globalConfig.CnnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@id", tr.id);
+                p.Add("@active", x);
                 connection.Execute("sp_touramentComplete", p, commandType: CommandType.StoredProcedure);
                         
             }

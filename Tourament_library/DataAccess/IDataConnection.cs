@@ -21,7 +21,7 @@ namespace Tourament_library.DataAccess
 
         List<tourement_Model> getTourAll();
         void UpdateTourament(tourement_Model tr);
-        void touramentComplete(tourement_Model tr);
+        void touramentComplete(tourement_Model tr,int x);
 
 
 

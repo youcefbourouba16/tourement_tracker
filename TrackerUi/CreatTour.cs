@@ -136,59 +136,85 @@ namespace TrackerUi
 
         private void btn_addTourament_Click(object sender, EventArgs e)
         {
-            decimal fee = 0;
-            bool feeValidation = decimal.TryParse(entryFee_val.Text, out fee);
-            if (!feeValidation)
-            {
-                MessageBox.Show("please enter an decimale value in Entry fee box", "invalide fee",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-            if (touramentName.Text=="")
-            {
-                MessageBox.Show("Tourament Name is requered ", "invalide Tourament Name",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                return;
-            }
-            if (teamsSelected.Count < 2)
-            {
-                MessageBox.Show("the number of team should be 2 team or more", "cannot create tourament",
-                   MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                return;
-            }
-            tourement_Model tr = new tourement_Model(
-                                touramentName.Text,
-                                double.Parse(entryFee_val.Text),
-                                teamsSelected,
-                                PrizesAll
-                );
-            // order the list randomly 
-            // teams should be 2 or more
-            //if it's number team count id even can divie by 2 do not add byes ==>else ad one byes in first round
-            // create rounds (round 1 that other rounds)
+            List<tourement_Model> tourAll = globalConfig.Connections.getTourAll();
             
-            tourLogic.CreateRounds(tr);
-            
-
-             globalConfig.Connections.createTourament(tr);
-            callingForm.tourComplete(tr);
-            this.Close();
-            if (tr != null)
+            int count = 0;
+            foreach (tourement_Model item in tourAll)
             {
-                mainApp frm1 = new mainApp(tr); /// this means this exactly form that  we're in
-
-                //this.Close();
-                frm1.Show();
+                if (touramentName.Text == item.TouramentName)
+                {
+                   
+                    count++;
+                }
             }
+            if (count<2)
+            {
+                decimal fee = 0;
+                bool feeValidation = decimal.TryParse(entryFee_val.Text, out fee);
+                if (!feeValidation)
+                {
+                    MessageBox.Show("please enter an decimale value in Entry fee box", "invalide fee",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                if (touramentName.Text == "")
+                {
+                    MessageBox.Show("Tourament Name is requered ", "invalide Tourament Name",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+                if (teamsSelected.Count < 2)
+                {
+                    MessageBox.Show("the number of team should be 2 team or more", "cannot create tourament",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    return;
+                }
+                tourement_Model tr = new tourement_Model(
+                                    touramentName.Text,
+                                    double.Parse(entryFee_val.Text),
+                                    teamsSelected,
+                                    PrizesAll
+                    );
+                // order the list randomly 
+                // teams should be 2 or more
+                //if it's number team count id even can divie by 2 do not add byes ==>else ad one byes in first round
+                // create rounds (round 1 that other rounds)
+
+                tourLogic.CreateRounds(tr);
+
+
+                globalConfig.Connections.createTourament(tr);
+                tourAll = globalConfig.Connections.getTourAll();
+                count = 0;
+                foreach (tourement_Model item in tourAll)
+                {
+                    if (tr.TouramentName == item.TouramentName)
+                    {
+                        tr = item;
+                    }
+                }
+
+                callingForm.tourComplete(tr);
+                this.Close();
+                if (tr != null)
+                {
+                    mainApp frm1 = new mainApp(tr); /// this means this exactly form that  we're in
+
+                    //this.Close();
+                    frm1.Show();
+                }
+            }else  MessageBox.Show("Tourament already exist !! try new name", "cannot create tourament",
+               MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
 
 
 
         }
 
-        
+
 
         private void entryFee_val_KeyPress(object sender, KeyPressEventArgs e)
         {

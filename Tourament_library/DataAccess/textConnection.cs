@@ -146,7 +146,7 @@ namespace Tourament_library.DataAccess
             throw new NotImplementedException();
         }
 
-        public void touramentComplete(tourement_Model tr)
+        public void touramentComplete(tourement_Model tr,int x)
         {
             throw new NotImplementedException();
         }
