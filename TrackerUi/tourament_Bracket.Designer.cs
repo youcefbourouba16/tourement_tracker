@@ -39,6 +39,8 @@
             EditTour = new Button();
             button1 = new Button();
             button2 = new Button();
+            label4 = new Label();
+            label3 = new Label();
             SuspendLayout();
             // 
             // tourName
@@ -94,7 +96,7 @@
             // 
             // panel1
             // 
-            panel1.Location = new Point(12, 126);
+            panel1.Location = new Point(12, 160);
             panel1.Name = "panel1";
             panel1.Size = new Size(579, 550);
             panel1.TabIndex = 7;
@@ -114,6 +116,7 @@
             DeleteTour.TabIndex = 41;
             DeleteTour.Text = "Delete Tourament";
             DeleteTour.UseVisualStyleBackColor = false;
+            DeleteTour.Click += DeleteTour_Click;
             // 
             // EditTour
             // 
@@ -127,12 +130,14 @@
             EditTour.Name = "EditTour";
             EditTour.Size = new Size(260, 57);
             EditTour.TabIndex = 42;
-            EditTour.Text = "Edit Tourament";
+            EditTour.Text = "Tourament History";
             EditTour.UseVisualStyleBackColor = false;
+            EditTour.Click += EditTour_Click_1;
             // 
             // button1
             // 
             button1.BackColor = Color.Gray;
+            button1.Enabled = false;
             button1.Location = new Point(-3, 126);
             button1.Name = "button1";
             button1.Size = new Size(964, 10);
@@ -143,6 +148,7 @@
             // button2
             // 
             button2.BackColor = Color.Gray;
+            button2.Enabled = false;
             button2.Location = new Point(-3, 71);
             button2.Name = "button2";
             button2.Size = new Size(964, 10);
@@ -150,12 +156,34 @@
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = false;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = Color.Firebrick;
+            label4.Location = new Point(248, 139);
+            label4.Name = "label4";
+            label4.Size = new Size(34, 15);
+            label4.TabIndex = 45;
+            label4.Text = "Tips :";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(277, 139);
+            label3.Margin = new Padding(0, 0, 3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(314, 15);
+            label3.TabIndex = 46;
+            label3.Text = "hover over teams gives you Matchup Parent  information .";
+            // 
             // tourament_Bracket
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
             ClientSize = new Size(956, 481);
+            Controls.Add(label3);
+            Controls.Add(label4);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(EditTour);
@@ -187,5 +215,6 @@
         private Button EditTour;
         private Button button1;
         private Button button2;
+        private Label label4;
     }
 }

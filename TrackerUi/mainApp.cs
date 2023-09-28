@@ -25,7 +25,6 @@ namespace TrackerUi
         {
 
             InitializeComponent();
-
             tour = setWinnerFirstRounnd(tr);
             
             roundGetList();
@@ -177,8 +176,11 @@ namespace TrackerUi
 
             if (tour.Active == 2)
             {
+                mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
+                frm1.Close();
                 tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
                 frm.Show();
+                
                 globalConfig.Connections.touramentComplete(tour,2);
             }
             globalConfig.Connections.UpdateTourament(tour);

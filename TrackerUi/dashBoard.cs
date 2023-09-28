@@ -60,6 +60,13 @@ namespace TrackerUi
                 {
                     tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
                     frm.Show();
+                    dashBoard frm1 = new dashBoard();
+                    frm1.Close();
+                    /// todo-- exit this
+                    
+                    
+
+                    
                 }
                 else
                 {

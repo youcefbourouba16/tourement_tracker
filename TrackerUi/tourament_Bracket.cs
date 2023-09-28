@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,13 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tourament_library;
 using Tourament_library.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TrackerUi
 {
     public partial class tourament_Bracket : Form
     {
-
+        tourement_Model tour = new();
         public void Bracket_Round1(int FirstRoundMatchupNumber)
         {
             int x_axe = 50;
@@ -31,7 +34,7 @@ namespace TrackerUi
                 {
                     lb = new Label();
                     lb.Text = "lb1_" + j.ToString();
-                    lb.Font = new Font("Arial", 9, FontStyle.Bold);
+                    lb.Font = new Font("Arial", 12, FontStyle.Bold);
                     lb.ForeColor = Color.GreenYellow;
                     lb.Name = entriy1.ToString();
                     lb.Location = new Point(x_axe, y_axe);
@@ -40,7 +43,7 @@ namespace TrackerUi
                     lb1 = new Label();
                     lb1.Font = new Font("Arial", 12, FontStyle.Bold);
                     lb1.Text = "lb2_" + j.ToString();
-                    lb1.Name = entriy1.ToString();
+                    lb1.Name = entriy2.ToString();
                     lb1.Location = new Point(x_axe, y_axe + 30);
                     y_axe += 100;
                     entriy1 += 1;
@@ -93,15 +96,21 @@ namespace TrackerUi
                         else output += "0,";
                         if (entry.teamCompreting != null)
                         {
-                            output += $"{entry.teamCompreting.teamName} :({entry.score}) ";
+                            output += $"{entry.teamCompreting.teamName}:({entry.score})";
                         }
                         else output += "<Bye>";
+                        if (entry.matchupParent != null)
+                        {
+                            output += $",{entry.matchupParent.fullNamesEntries}";
+                        }
+                        else output += $",Matchup Parent null";
                         listEntries.Add(output);
                         output = "";
                     }
                 }
             }
             j = 0;
+
             foreach (Label lb in panel1.Controls)
             {
                 string s = listEntries[j];
@@ -113,6 +122,9 @@ namespace TrackerUi
                 }
                 else lb.ForeColor = Color.Red;
                 lb.Text = parts[2];
+                System.Windows.Forms.ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
+                toolTip1.SetToolTip(lb, parts[3]);
+                //lb.SetToll = parts[3];
                 j++;
 
                 if (j == listEntries.Count)
@@ -126,7 +138,9 @@ namespace TrackerUi
         public tourament_Bracket(tourement_Model tour)
         {
             InitializeComponent();
-
+            System.Windows.Forms.ToolTip toolTip1 = new System.Windows.Forms.ToolTip();
+            toolTip1.SetToolTip(EditTour, "Edit the tourament Matchup,NOTE:in some cases it will not work.");
+            this.tour = tour;
             tourName.Text = tour.TouramentName;
             int FirstRoundMatchupNumber = 0;
             foreach (MatchupModel matchup in tour.round[0])
@@ -169,6 +183,54 @@ namespace TrackerUi
 
 
 
+        }
+
+        private void EditTour_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tourament_Bracket_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void EditTour_Click_1(object sender, EventArgs e)
+        {
+            mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
+
+            //this.Close();
+            frm1.Show();
+        }
+
+        private void DeleteTour_Click(object sender, EventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Are you sure to delete this Tourament ??",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo,
+                                     MessageBoxIcon.Warning);
+            if (confirmResult == DialogResult.Yes)
+            {
+                
+                globalConfig.Connections.touramentComplete(tour,0);
+
+                dashBoard frm1 = new dashBoard(); /// this means this exactly form that  we're in
+
+                this.Close();
+                frm1.Show();
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
