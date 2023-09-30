@@ -177,7 +177,7 @@ namespace TrackerUi
             if (tour.Active == 2)
             {
                 mainApp frm1 = new mainApp(tour); /// this means this exactly form that  we're in
-                frm1.Close();
+                this.Close();
                 tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
                 frm.Show();
                 

@@ -130,7 +130,7 @@
             EditTour.Name = "EditTour";
             EditTour.Size = new Size(260, 57);
             EditTour.TabIndex = 42;
-            EditTour.Text = "Tourament History";
+            EditTour.Text = "Edit Tourament";
             EditTour.UseVisualStyleBackColor = false;
             EditTour.Click += EditTour_Click_1;
             // 

@@ -174,7 +174,7 @@ namespace TrackerUi
                     secondPName.Text = item.teamCompreting.teamName;
 
                 }
-                if (item.id != tour.round[tour.round.Count - 1][0].winnerID)
+                if (item.id == tour.round[tour.round.Count - 1][0].winnerID)
                 {
                     firstPName.Text = item.teamCompreting.teamName;
                 }
@@ -219,8 +219,8 @@ namespace TrackerUi
                                      MessageBoxIcon.Warning);
             if (confirmResult == DialogResult.Yes)
             {
-                
-                globalConfig.Connections.touramentComplete(tour,0);
+
+                globalConfig.Connections.touramentComplete(tour, 0);
 
                 dashBoard frm1 = new dashBoard(); /// this means this exactly form that  we're in
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Tourament_library.Models;
 using Tourament_library.DataAccess.Convert;
 using System.Reflection;
+using System.Xml;
+using System.IO;
 
 namespace Tourament_library.DataAccess
 {
@@ -143,61 +145,113 @@ namespace Tourament_library.DataAccess
 
         public void UpdateTourament(tourement_Model tr)
         {
-            throw new NotImplementedException();
+
+            /// id,name,fee,Entrie,rounds,acitveStatus
+            ///(entry) id,teamcompetin.Id,score,matchupParent
+            ///(matchup) id,matchupEntries,winner,matchupRound
+            List<string> touraments = touramentFile.getFullpath().loadFile();
+            List<string> entries = MatchupEntriesFile.getFullpath().loadFile();
+            List<string> matchups = Matchupfile.getFullpath().loadFile();
+            List<MatchupModel> AllmatchupOftour = new List<MatchupModel>();
+            MatchupModel matchup = new MatchupModel();
+            List<MatchupEntrieModel> AllEntriesOftour = new List<MatchupEntrieModel>();
+            MatchupEntrieModel entry = new MatchupEntrieModel();
+            foreach (List<MatchupModel> MatchupList in tr.round)
+            {
+                foreach (MatchupModel matchup1 in MatchupList)
+                {
+                    AllmatchupOftour.Add(matchup1);
+                    matchup1.winnerID = matchup1.Winner.id;
+                    foreach (MatchupEntrieModel item in matchup1.Entries)
+                    {
+                        AllEntriesOftour.Add(item);
+                    }
+                }
+            }
+
+            string output= "";
+            int indexTour=0;
+            foreach (MatchupEntrieModel entr in AllEntriesOftour)
+            {
+                
+                for (int i = 0; i < entries.Count; i++)
+                {
+
+                    string[] c = entries[i].Split(',');
+                    if (entr.id== int.Parse(c[0]))
+                    {
+                        entries[i] = $"{entr.id},{entr.TeamCompetingID},{entr.score},";
+                    }
+                    if (entr.matchupParent!=null)
+                    {
+                        entr.ParentMatchupID = entr.matchupParent.id;
+                        entries[i] += $"{entr.matchupParent.id}";
+                    }
+                }
+            }
+            foreach (MatchupModel mat in AllmatchupOftour)
+            {
+                if (mat.Winner!=null)
+                {
+                    mat.winnerID = mat.Winner.id;
+                }
+                for (int i = 0; i < matchups.Count; i++)
+                {
+                    string[] k = matchups[i].Split(',');
+                    if (mat.id == int.Parse(k[0]))
+                    {
+                        matchups[i] = $"{mat.id},{textFileProcessor.convertTeamMatchupEntriesListToString(mat.Entries)}," +
+                            $"{mat.winnerID},{mat.MatchupRound}";
+                    }
+                }
+            }
+            /// update tourament
+            /// id,touramentName,fee,(team1^team2^team3),(prize*prize1*prize2), (round id^id^id|id^id^id..)..
+            output += $"{tr.id}," +
+                $"{tr.TouramentName}," +
+                $"{tr.EntryFee}," +
+                $"{textFileProcessor.convertTeamEntriesListToString(tr.EnteredTeams)}," +
+                $"{textFileProcessor.convertTourPrizesListToString(tr.Prizes)}," +
+                $"{textFileProcessor.convertTourRoumdListToString(tr.round)}," +
+                $"{tr.Active}";
+            touraments[indexTour] = output;
+
+            File.WriteAllLines(MatchupEntriesFile.getFullpath(), entries);
+            File.WriteAllLines(Matchupfile.getFullpath(), matchups);
+            File.WriteAllLines(touramentFile.getFullpath(), touraments);
+
+
+
         }
 
         public void touramentComplete(tourement_Model tr,int x)
         {
-            throw new NotImplementedException();
+            if (x==0)
+            {
+                List<string> touraments = touramentFile.getFullpath().loadFile();
+                int i = 0;
+                tr.Active = 0;
+                int index=0;
+                foreach (string item in touraments)
+                {
+                    string[] c = item.Split(',');
+                    if (int.Parse(c[0]) == tr.id)
+                    {
+                        index = i; break;
+                    }
+                    i++;
+                }
+                touraments.RemoveAt(index);
+                File.WriteAllLines(touramentFile.getFullpath(), touraments);
+
+            }
+            if (x==2)
+            {
+                tr.Active = 2;
+                UpdateTourament(tr);
+            }
+            
         }
-        //public void createMatchup(MatchupModel Matchup)
-        //{
-        //    List<MatchupModel> Matchups = Matchupfile.getFullpath().loadFile().
-        //        convertToMatchuplList(MatchupEntriesFile,teamFile,peopleFile);
-        //    int currentID;
-        //    try
-        //    {
-        //        currentID = Matchups.OrderByDescending(x => x.id).First().id + 1;
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        currentID = 1;
-        //    }
-        //    // add the new record (id+1)
-        //    Matchup.id = currentID;
-
-        //    Matchups.Add(Matchup);
-
-
-
-        //    Matchups.saveMatchupList(Matchupfile);
-
-        //}
-        //public void createMatchupEntries(MatchupEntrieModel MatchupEntrie)
-        //{
-        //    List<MatchupEntrieModel> MatchupEnries = Matchupfile.getFullpath().loadFile().
-        //        convertToMatchEntryModelList(teamFile,Matchupfile,peopleFile);
-        //    int currentID;
-        //    try
-        //    {
-        //        currentID = MatchupEnries.OrderByDescending(x => x.id).First().id + 1;
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        currentID = 1;
-        //    }
-        //    // add the new record (id+1)
-        //    MatchupEntrie.id = currentID;
-
-        //    MatchupEnries.Add(MatchupEntrie);
-
-
-
-        //    MatchupEnries.saveEntriesList(Matchupfile);
-
-        //}
 
 
     }
