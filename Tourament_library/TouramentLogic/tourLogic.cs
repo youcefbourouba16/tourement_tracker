@@ -162,7 +162,7 @@ namespace Tourament_library.TouramentLogic
                         {
                             foreach (MatchupEntrieModel item in matchup.Entries)
                             {
-                                if (item.teamCompreting == matchup.Winner)
+                                if (item.teamCompreting.id == matchup.Winner.id)
                                 {
 
                                     tempEntry.teamCompreting = item.teamCompreting;
@@ -201,31 +201,6 @@ namespace Tourament_library.TouramentLogic
                         
                     }
                     i++;
-                    //if (match.Entries.Count > 0)
-                    //{
-                    //    if (match.Entries[0].teamCompreting != null)
-                    //    {
-                    //        if (match.Entries.Count == 2 && match.Entries[1].teamCompreting == null)
-                    //        {
-                    //            tempNewMatchups[i].id = match.id;
-                    //            for (int j = 0; j < match.Entries.Count; j++)
-                    //            {
-                    //                if (tempNewMatchups[i].Entries.Count == 2)
-                    //                {
-                    //                    tempNewMatchups[i].Entries[j].id = match.Entries[j].id;
-                    //                }
-                    //                else break;
-
-
-                    //            }
-                    //            i++;
-                    //        }
-                    //    }
-                    //    i = 0;
-                    //}
-
-
-
                 }
                 i = 0;
                 j = 0;

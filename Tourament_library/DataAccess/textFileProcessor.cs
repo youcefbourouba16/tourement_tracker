@@ -169,8 +169,6 @@ namespace Tourament_library.DataAccess.Convert
                     foreach (MatchupModel match in matchups)
                     {
                         MAtchups.Add(match);
-                        
-                        
                             foreach (MatchupEntrieModel entry in match.Entries)
                             {
                                 if (entry.teamCompreting!=null)
@@ -180,9 +178,6 @@ namespace Tourament_library.DataAccess.Convert
 
                                 ENtries.Add(entry);
                             }
-                           
-                            
-                        
                     }
                    
                 }
@@ -193,9 +188,9 @@ namespace Tourament_library.DataAccess.Convert
             foreach (tourement_Model tr in touraments)
             {
                 /// id,name,fee,Entrie,rounds,acitveStatus
-                lines.Add($"{tr.id} , {tr.TouramentName} ," +
+                lines.Add($"{tr.id},{tr.TouramentName}," +
                     $"{tr.EntryFee}," +
-                    $" {convertTeamEntriesListToString(tr.EnteredTeams)}," +
+                    $"{convertTeamEntriesListToString(tr.EnteredTeams)}," +
                     $"{convertTourPrizesListToString(tr.Prizes)},{convertTourRoumdListToString(tr.round)},{tr.Active}");
             }
 
@@ -214,13 +209,13 @@ namespace Tourament_library.DataAccess.Convert
                 matchupListID++;
                 if (tr.Winner!=null)
                 {
-                    lines.Add($"{tr.id} , {convertTeamMatchupEntriesListToString(tr.Entries)} ," +
+                    lines.Add($"{tr.id},{convertTeamMatchupEntriesListToString(tr.Entries)}," +
                     $"{tr.winnerID}," +
                     $" {(tr.MatchupRound)}");
                 }
                 else
                 {
-                    lines.Add($"{tr.id} , {convertTeamMatchupEntriesListToString(tr.Entries)} ," +
+                    lines.Add($"{tr.id},{convertTeamMatchupEntriesListToString(tr.Entries)}," +
                     "0," +
                     $" {(tr.MatchupRound)}");
                 }
@@ -249,12 +244,12 @@ namespace Tourament_library.DataAccess.Convert
                 if (tr.score != null)
                 {
                     output += $"{tr.score},";
-                }else output += $" ,";
+                }else output += $"0,";
 
                 if (tr.matchupParent != null)
                 {
-                    output += $"{(tr.matchupParent.id)},";
-                }else output += $" ,";
+                    output += $"{(tr.matchupParent.id)}";
+                }else output += $"0";
 
                 lines.Add(output);
                 output = "";
@@ -367,7 +362,7 @@ namespace Tourament_library.DataAccess.Convert
                      }
 
                 p.score = double.Parse(parts[2]);
-                if (parts[3] == "0")
+                if (parts[3] == "")
                 {
                     p.ParentMatchupID = 0;
                 }

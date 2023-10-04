@@ -8,6 +8,7 @@ using Tourament_library.DataAccess.Convert;
 using System.Reflection;
 using System.Xml;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Tourament_library.DataAccess
 {
@@ -161,7 +162,11 @@ namespace Tourament_library.DataAccess
                 foreach (MatchupModel matchup1 in MatchupList)
                 {
                     AllmatchupOftour.Add(matchup1);
-                    matchup1.winnerID = matchup1.Winner.id;
+                    if (matchup1.Winner!=null)
+                    {
+                        matchup1.winnerID = matchup1.Winner.id;
+                    }
+                    
                     foreach (MatchupEntrieModel item in matchup1.Entries)
                     {
                         AllEntriesOftour.Add(item);
@@ -171,24 +176,31 @@ namespace Tourament_library.DataAccess
 
             string output= "";
             int indexTour=0;
+            int l = 0;
+            string output2 = "";
+            int index2 = 0;
             foreach (MatchupEntrieModel entr in AllEntriesOftour)
             {
-                
-                for (int i = 0; i < entries.Count; i++)
+                foreach (string chare in entries)
                 {
-
-                    string[] c = entries[i].Split(',');
-                    if (entr.id== int.Parse(c[0]))
+                    string[] c = chare.Split(',');
+                    if (entr.id == int.Parse(c[0]))
                     {
-                        entries[i] = $"{entr.id},{entr.TeamCompetingID},{entr.score},";
-                    }
-                    if (entr.matchupParent!=null)
-                    {
-                        entr.ParentMatchupID = entr.matchupParent.id;
-                        entries[i] += $"{entr.matchupParent.id}";
+                        output2 += $"{entr.id},{entr.TeamCompetingID},{entr.score},";
+                        if (entr.matchupParent != null)
+                        {
+                            entr.ParentMatchupID = entr.matchupParent.id;
+                            output2 += $"{entr.matchupParent.id}";
+                        }
+                        else output2 += $"0";
+                        index2 = entries.IndexOf(chare);
+                        entries[index2] = output2;
+                        output2 = "";
+                        break;
                     }
                 }
             }
+            
             foreach (MatchupModel mat in AllmatchupOftour)
             {
                 if (mat.Winner!=null)
@@ -214,6 +226,14 @@ namespace Tourament_library.DataAccess
                 $"{textFileProcessor.convertTourPrizesListToString(tr.Prizes)}," +
                 $"{textFileProcessor.convertTourRoumdListToString(tr.round)}," +
                 $"{tr.Active}";
+            foreach (string item in touraments)
+            {
+                string[] c = item.Split(',');
+                if (int.Parse(c[0])==tr.id)
+                {
+                    indexTour = touraments.IndexOf(item);
+                }
+            }
             touraments[indexTour] = output;
 
             File.WriteAllLines(MatchupEntriesFile.getFullpath(), entries);
