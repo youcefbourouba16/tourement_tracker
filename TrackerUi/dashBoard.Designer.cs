@@ -34,6 +34,7 @@
             label5 = new Label();
             touramentList = new ComboBox();
             label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // creatTourament
@@ -43,7 +44,7 @@
             creatTourament.Cursor = Cursors.Hand;
             creatTourament.FlatAppearance.BorderSize = 0;
             creatTourament.FlatStyle = FlatStyle.Flat;
-            creatTourament.Font = new Font("Unispace", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
+            creatTourament.Font = new Font("Microsoft Sans Serif", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point);
             creatTourament.ForeColor = Color.Black;
             creatTourament.Location = new Point(146, 344);
             creatTourament.Name = "creatTourament";
@@ -60,7 +61,7 @@
             loadTorament.Cursor = Cursors.Hand;
             loadTorament.FlatAppearance.BorderSize = 0;
             loadTorament.FlatStyle = FlatStyle.Flat;
-            loadTorament.Font = new Font("Unispace", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
+            loadTorament.Font = new Font("Microsoft Sans Serif", 9.749999F, FontStyle.Bold, GraphicsUnit.Point);
             loadTorament.ForeColor = Color.Black;
             loadTorament.Location = new Point(267, 289);
             loadTorament.Name = "loadTorament";
@@ -104,6 +105,17 @@
             label1.TabIndex = 79;
             label1.Text = "Tourament Tracker";
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(503, 428);
+            label2.Name = "label2";
+            label2.Size = new Size(153, 15);
+            label2.TabIndex = 84;
+            label2.Text = "Made by : Youcef Bourouba";
+            // 
             // dashBoard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -111,6 +123,7 @@
             AutoValidate = AutoValidate.EnablePreventFocusChange;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(668, 452);
+            Controls.Add(label2);
             Controls.Add(creatTourament);
             Controls.Add(loadTorament);
             Controls.Add(label5);
@@ -134,5 +147,6 @@
         private Label label5;
         private ComboBox touramentList;
         private Label label1;
+        private Label label2;
     }
 }

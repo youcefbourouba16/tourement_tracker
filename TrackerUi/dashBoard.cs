@@ -55,7 +55,7 @@ namespace TrackerUi
             tourement_Model tour = createMainApp();
             if (tour != null)
             {
-                
+
                 if (tour.Active == 2)
                 {
                     tourament_Bracket frm = new tourament_Bracket(tour); /// this means this exactly form that  we're in
@@ -63,10 +63,10 @@ namespace TrackerUi
                     dashBoard frm1 = new dashBoard();
                     frm1.Close();
                     /// todo-- exit this
-                    
-                    
 
-                    
+
+
+
                 }
                 else
                 {
@@ -76,8 +76,8 @@ namespace TrackerUi
                     frm1.Show();
 
                 }
-                
-                
+
+
             }
 
 
