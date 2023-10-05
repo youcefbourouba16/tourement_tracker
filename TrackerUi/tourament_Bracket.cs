@@ -35,6 +35,7 @@ namespace TrackerUi
                     lb = new Label();
                     lb.Text = "lb1_" + j.ToString();
                     lb.Font = new Font("Arial", 12, FontStyle.Bold);
+                    lb.AutoSize = true;
                     lb.ForeColor = Color.GreenYellow;
                     lb.Name = entriy1.ToString();
                     lb.Location = new Point(x_axe, y_axe);
@@ -42,6 +43,7 @@ namespace TrackerUi
 
                     lb1 = new Label();
                     lb1.Font = new Font("Arial", 12, FontStyle.Bold);
+                    lb1.AutoSize = true;
                     lb1.Text = "lb2_" + j.ToString();
                     lb1.Name = entriy2.ToString();
                     lb1.Location = new Point(x_axe, y_axe + 30);
@@ -68,6 +70,7 @@ namespace TrackerUi
                     lb = new Label();
                     lb.Text = "lb1_" + j.ToString();
                     lb.Font = new Font("Arial", 12, FontStyle.Bold);
+                    lb.AutoSize = true;
                     lb.ForeColor = Color.Blue;
                     lb.Name = entriy1.ToString();
                     lb.Location = new Point(x_axe, y_axe);
@@ -89,11 +92,17 @@ namespace TrackerUi
                     foreach (MatchupEntrieModel entry in matchup.Entries)
                     {
                         output += $"{j},";
-                        if (entry.teamCompreting == matchup.Winner)
+                        if (entry.teamCompreting!=null)
                         {
-                            output += "1,";
+                            
+                            if (entry.teamCompreting.id == matchup.Winner.id)
+                            {
+                                output += "1,";
+                            }
+                            else output += "0,";
                         }
                         else output += "0,";
+
                         if (entry.teamCompreting != null)
                         {
                             output += $"{entry.teamCompreting.teamName}:({entry.score})";
@@ -167,17 +176,19 @@ namespace TrackerUi
             panel1.Controls[count - 1].Text = "Winner :" + tour.round[tour.round.Count - 1][0].Winner.teamName;
             panel1.Controls[count - 1].ForeColor = Color.Goldenrod;
             panel1.Controls[count - 1].Size = new Size(300, 18);
+            //// first and second place
             foreach (MatchupEntrieModel item in tour.round[tour.round.Count - 1][0].Entries)
             {
-                if (item.id != tour.round[tour.round.Count - 1][0].winnerID)
+                if (item.teamCompreting.id != tour.round[tour.round.Count - 1][0].Winner.id)
                 {
                     secondPName.Text = item.teamCompreting.teamName;
 
                 }
-                if (item.id == tour.round[tour.round.Count - 1][0].winnerID)
+                else
                 {
                     firstPName.Text = item.teamCompreting.teamName;
                 }
+                
             }
 
 

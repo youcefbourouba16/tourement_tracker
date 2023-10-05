@@ -139,12 +139,11 @@ namespace Tourament_library.DataAccess.Convert
             {
                 
 
-                lines.Add($"{p.id} , {p.teamName} , {convertTeamMemberToString(p.team_member)}");
+                lines.Add($"{p.id},{p.teamName},{convertTeamMemberToString(p.team_member)}");
 
 
 
             }
-            string s = fileName.getFullpath();
 
             File.WriteAllLines(fileName.getFullpath(), lines);
 
