@@ -1,5 +1,7 @@
 # tourement_tracker
-If you're using Windows, you can simply download 'TournamentTracker.exe' to install the app. Alternatively, for those working with C# WinForms in .NET, you can clone or download the project and open it from the 'tournament_tracker.sln' file.
+If you're using Windows, you can simply download 'TournamentTracker.exe' to install the app.
+Alternatively, for those working with C# WinForms in .NET, you can clone or download the project and open it from the 'tournament_tracker.sln' file.
+IMPORTANT : Database backup .bacpac file link : https://github.com/youcefbourouba16/tourement_tracker/tree/master/Tourament_library/DataBase
 
 Special thanks to Tim Cory ( https://www.youtube.com/@IAmTimCorey ) for his invaluable instructions and guidance on this project.
 
