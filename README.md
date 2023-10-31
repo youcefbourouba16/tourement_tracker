@@ -5,30 +5,6 @@ Special thanks to Tim Cory ( https://www.youtube.com/@IAmTimCorey ) for his inva
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////
 ![1](https://github.com/youcefbourouba16/tourement_tracker/assets/109678299/01485cb7-7252-45e9-9f5a-1df71f7607bd)
 ![2](https://github.com/youcefbourouba16/tourement_tracker/assets/109678299/0c4a0463-366a-45a6-80fb-11ac7f072d4e)
 ![3](https://github.com/youcefbourouba16/tourement_tracker/assets/109678299/032ebf17-eed9-44c8-923f-25fd0c259a65)
