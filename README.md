@@ -1,6 +1,8 @@
 # tourement_tracker
-i you want to install the app on windows just go and download ( Tourament tracker.exe )
-otherwise you can clone or download this project on C# winform .net than open it from the file (tourement_tracker.sln)
+If you're using Windows, you can simply download 'TournamentTracker.exe' to install the app. Alternatively, for those working with C# WinForms in .NET, you can clone or download the project and open it from the 'tournament_tracker.sln' file.
+
+Special thanks to Tim Cory ( https://www.youtube.com/@IAmTimCorey ) for his invaluable instructions and guidance on this project.
+
 
 
 
